@@ -24,7 +24,7 @@ print.PCAmix <- function(x, ...){
     res[6,] <- c("$sqload", "squared loadings after rotation")    
     res[7,] <- c("$coef", "coef of the linear combinations defining the rotated PC")
     res[8,] <- c("$theta", "angle of rotation if 'dim'=2")
-    res[9,] <- c("$T", "matrix of rotation if 'dim'=2")
+    res[9,] <- c("$T", "matrix of rotation")
   } else {
     res <- matrix("",7,2)
     colnames(res) <-c("name","description")
