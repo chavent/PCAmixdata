@@ -32,7 +32,7 @@ print.PCAmix <- function(x, ...){
     res[2,] <- c("$ind", "results for the individuals (coord,contrib,cos2)")
     res[3,] <- c("$quanti", "results for the quantitative variables (coord,contrib,cos2)")
     res[4,] <- c("$levels", "results for the levels of the qualitative variables (coord,contrib,cos2)")
-    res[5,] <- c("$quali", "results for the qualitative variables (coord,contrib,cos2)")
+    res[5,] <- c("$quali", "results for the qualitative variables (contrib,relative contrib)")
     res[6,] <- c("$sqload", "squared loadings")
     res[7,] <- c("$coef", "coef of the linear combinations defining the PC")
   }
