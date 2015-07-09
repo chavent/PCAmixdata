@@ -238,7 +238,7 @@ PCAmix<- function (X.quanti=NULL,X.quali=NULL,ndim=5,rename.level=FALSE,weight.c
                         cos2 = cos2.quanti)
   result.levels <- list(coord = A2, contrib=contrib.moda, contrib.pct = 100 * contrib.moda.pct, 
                         cos2 = cos2.moda)
-  result.quali<-list(contrib = contrib.quali, contrib.pct=contrib.quali.pct)
+  result.quali<-list(contrib = contrib.quali, contrib.pct=contrib.quali.pct*100)
   
   rownames(V) <- rownames(A)
   colnames(V) <- colnames(A)
