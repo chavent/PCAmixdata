@@ -1,4 +1,4 @@
-PCAmix<- function (X.quanti=NULL,X.quali=NULL,ndim=5,rename.level=FALSE,weight.col=NULL,weight.row=NULL,graph=TRUE)
+PCAmix<- function (data,ndim=5,rename.level=FALSE,weight.col=NULL,weight.row=NULL,graph=TRUE)
 {
   cl <- match.call()
   split.data<-splitmix(data)
