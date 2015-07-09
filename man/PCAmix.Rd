@@ -114,10 +114,8 @@ Revue de statistique appliquee, 52(4):93-111.
 \examples{
 #PCAMIX:
 data(wine)
-X.quanti <- wine[,c(3:29)]
-X.quali <- wine[,c(1,2)]
-pca<-PCAmix(X.quanti,X.quali,ndim=4)
-pca<-PCAmix(X.quanti,X.quali,ndim=4,graph=FALSE)
+pca<-PCAmix(data=wine[,c(1:29)],ndim=4)
+pca<-PCAmix(data=wine[,c(1:29)],ndim=4,graph=FALSE)
 pca$eig
 pca$ind$coord
 
@@ -126,7 +124,7 @@ data(decathlon)
 quali<-decathlon[,13]
 pca<-PCAmix(decathlon[,1:10])
 pca<-PCAmix(decathlon[,1:10], graph=FALSE)
-plot(pca,choice="ind",quali=quali,cex=0.8,
+plot(pca,choice="ind",coloring.ind=quali,cex=0.8,
     posleg="topright",main="Scores")
 plot(pca, choice="sqload",main="Squared correlations")
 plot(pca, choice="cor",main="Correlation circle")
@@ -134,8 +132,8 @@ pca$quanti$coord
 
 #MCA
 data(flower)
-mca <- PCAmix(X.quali=flower[,1:4],rename.level=TRUE)
-mca <- PCAmix(X.quali=flower[,1:4],rename.level=TRUE,graph=FALSE)
+mca <- PCAmix(data=flower[,1:4],rename.level=TRUE)
+mca <- PCAmix(data=flower[,1:4],rename.level=TRUE,graph=FALSE)
 plot(mca,choice="ind",main="Scores")
 plot(mca,choice="sqload",main="Correlation ratios")
 plot(mca,choice="levels",main="Levels")
@@ -143,9 +141,9 @@ mca$levels$coord
 
 #Missing values
 data(vnf)
-PCAmix(X.quali=vnf,rename.level=TRUE)
+PCAmix(data=vnf,rename.level=TRUE)
 vnf2<-na.omit(vnf)
-PCAmix(X.quali=vnf2,rename.level=TRUE)
+PCAmix(data=vnf2,rename.level=TRUE)
 }
 
 

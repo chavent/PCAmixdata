@@ -93,11 +93,8 @@ Le, S., Josse, J., and Husson, F. (2008). Factominer: an r package for multivari
 }
 \examples{
 data(gironde)
-
-X.quanti<-splitmix(gironde$housing[1:20,])$X.quanti
-X.quali<-splitmix(gironde$housing[1:20,])$X.quali
-
-res<-PCAmix(X.quanti,X.quali, rename.level=TRUE, ndim=3,graph=FALSE)
+data.pcamix<-gironde$housing[1:20,]
+res<-PCAmix(data=data.pcamix, rename.level=TRUE, ndim=3,graph=FALSE)
 
 #----quantitative variables on the correlation circle
 plot(res,choice="cor",cex=0.6)
@@ -106,7 +103,7 @@ plot(res,choice="cor",cex=0.6)
 plot(res,choice="ind",cex=0.6)
 
 #----individuals colored with the qualitative variable "houses"
-plot(res,choice="ind",cex=0.6,coloring.ind=X.quali$houses) 
+plot(res,choice="ind",cex=0.6,coloring.ind=data.pcamix$houses) 
 
 #----individuals selected according to their squared cosine
 plot(res,choice="ind",cex=0.6,lim.contrib.plot=0.8)
