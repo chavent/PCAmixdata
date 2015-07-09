@@ -85,6 +85,20 @@ MFAmix<-function(data, groups, name.groups, ndim=5, rename.level=FALSE,
   ponderation<-1/ponderation
   Res.total<-PCAmix(X.quanti=base.qt,X.quali=base.ql,ndim=ndim, rename.level=rename.level, graph=FALSE,weight.col=ponderation)
   
+  #Modification of values of squared loadings
+  #equal to contribution multiplicated by the eigenvalue of the separate analysis of the group
+  valP.groups<-data.frame(eig.groups,names(eig.groups))
+  tab.indic.names<-merge(tab.indic.names,valP.groups,by.x="groups",by.y="names.eig.groups.")
+  
+  tab.indic.names.qt<-tab.indic.names[match(rownames(Res.total$quanti$contrib),tab.indic.names$var), ]
+  tab.indic.names.ql<-tab.indic.names[match(rownames(Res.total$quali$contrib),tab.indic.names$var), ]
+  
+  Res.total$sqload.qt<-sweep(Res.total$quanti$contrib,1,tab.indic.names.qt$eig.groups,"*")
+  Res.total$sqload.ql<-sweep(Res.total$quali$contrib,1,tab.indic.names.ql$eig.groups,"*")
+  
+  Res.total$sqload.2<-rbind(Res.total$sqload.qt,Res.total$sqload.ql)
+  Res.total$sqload<-Res.total$sqload.2
+  
   sqload.order<-data.frame(matrix(NA,ncol=ncol(Res.total$sqload),nrow=nrow(Res.total$sqload)))
   for (i in 1:nrow(Res.total$sqload)){
     index<-as.character(ordre.var.data[i,1])
