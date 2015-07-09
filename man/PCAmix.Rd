@@ -2,7 +2,7 @@
 \alias{PCAmix}
 \title{Principal component analysis of mixed data}
 \usage{
-  PCAmix(X.quanti = NULL, X.quali = NULL, ndim = 5, rename.level=FALSE,
+  PCAmix(data, ndim = 5, rename.level=FALSE,
     weight.col = NULL, weight.row = NULL, graph = TRUE)
 }
 
@@ -12,9 +12,8 @@
 }
 
 \arguments{
-  \item{X.quanti}{a numerical data matrix of dimension (n,p1) with the description of n observations on p1 quantitative variables.}
+  \item{data}{a dataframe containing data with quantitative and qualitative variables to be analyzed. Qualitative variable must be coded as factors.}
 
-  \item{X.quali}{a categorical data matrix of dimension (n,p2) with the description of n observations on p2 qualitative variables.}
 
   \item{ndim}{number of dimensions kept in the results (by
   default 5).}

@@ -1,6 +1,9 @@
 PCAmix<- function (X.quanti=NULL,X.quali=NULL,ndim=5,rename.level=FALSE,weight.col=NULL,weight.row=NULL,graph=TRUE)
 {
   cl <- match.call()
+  split.data<-splitmix(data)
+  X.quanti<-split.data$X.quanti
+  X.quali<-spli.data$X.quali
   rec <- recod(X.quanti, X.quali,rename.level)
   n <- rec$n
   p <- rec$p
