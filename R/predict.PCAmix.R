@@ -1,8 +1,11 @@
-predict.PCAmix <- function(object,X.quanti=NULL,X.quali=NULL,...)
+predict.PCAmix <- function(object, data.new,...)
 {
   pca<-object
   if (!inherits(pca, "PCAmix")) 
     stop("use only with \"PCAmix\" objects")
+  data.new.split<-splitmix(data.new)
+  X.quanti<-data.new.split$X.quanti
+  X.quali<-data.new.split$X.quali
   
   rec <- recod(X.quanti,X.quali)
   Y <- rec$Y

@@ -8,17 +8,13 @@ This function performs the scores of new observations on the principal component
 }
 
 \usage{
-  \method{predict}{PCAmix}(object, X.quanti = NULL, X.quali = NULL,...)
+  \method{predict}{PCAmix}(object, data.new,...)
 }
 \arguments{
   \item{object}{an object of class PCAmix (output of the
   function PCAmix or PCArot).}
 
-  \item{X.quanti}{a numerical data matrix with the description of the new
-  observations on the quantitative variables.}
-
-  \item{X.quali}{a categorical data matrix with the description of the new
-  observations on the qualitative variables.}
+  \item{data.new}{a data frame where new individuals are described by exactly the same variables than these used in PCAmix}
   
   \item{...}{further arguments passed to or from other methods. They are ignored in this function.}
  } 
