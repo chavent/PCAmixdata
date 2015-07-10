@@ -227,8 +227,8 @@ MFAmix<-function(data, groups, name.groups, ndim=5, rename.level=FALSE,
   
   Lg.groups<-Lg.pond(Lst.groups.stand,ponderation.groups)
   RV.groups<-RV.pond(Lst.groups.stand,ponderation.groups)
-  
-  res.groups<-list(Lg=Lg.groups,RV=RV.groups,coord=coord.groups,contrib.pct=contrib.groups.pct,dist2=dist.groups,cos2=cos2.groups)
+  res.groups <- list(Lg = Lg.groups, RV = RV.groups, coord = contrib.groups.pct/100,
+                     contrib=contrib.groups, contrib.pct = contrib.groups.pct, dist2 = dist.groups)
   res.partial.axes<-list(coord=partial.axes.coord)  
   Res.total$ind$coord.partial<-coord.ind.partiel
   
