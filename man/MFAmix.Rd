@@ -81,9 +81,9 @@ Performs multiple factor analysis to analyze a set of individuals (observations)
   \itemize{
   \item \code{$Lg}: Lg coefficients between groups,
   \item \code{$RV}: RV coefficients between groups,
-  \item \code{$coord}:  coordinates of the groups,
+  \item \code{$coord}:  coordinates of the groups (equal to relative contributions divided by 100),
+  \item \code{$contrib}: contributions of the groups (sum of variable contributions belonging to the group)
   \item \code{$contrib.pct}:  relative contributions of the groups,
-  \item \code{$cos2}:  squared cosinus of the groups.
   }}
 
   \item{partial.axes}{a matrix containing the coordinates of the partial axes.}
