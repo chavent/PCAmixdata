@@ -97,9 +97,23 @@ MFAmix<-function(data, groups, name.groups, ndim=5, rename.level=FALSE,
   
   tab.indic.names.qt<-tab.indic.names[match(rownames(Res.total$quanti$contrib),tab.indic.names$var), ]
   tab.indic.names.ql<-tab.indic.names[match(rownames(Res.total$quali$contrib),tab.indic.names$var), ]
-  
-  Res.total$sqload.qt<-sweep(Res.total$quanti$contrib,1,tab.indic.names.qt$eig.groups,"*")
-  Res.total$sqload.ql<-sweep(Res.total$quali$contrib,1,tab.indic.names.ql$eig.groups,"*")
+  if(is.null(base.qt)){
+    Res.total$sqload.ql <- sweep(Res.total$quali$contrib, 1, 
+                                 tab.indic.names.ql$eig.groups, "*")
+    Res.total$sqload.2 <- Res.total$sqload.ql
+  }
+  if(is.null(base.ql)){
+    Res.total$sqload.qt <- sweep(Res.total$quanti$contrib, 1, 
+                                 tab.indic.names.qt$eig.groups, "*")
+    Res.total$sqload.2 <- Res.total$sqload.qt
+  }
+  if(!is.null(base.qt) & !is.null(base.ql)){
+    Res.total$sqload.ql <- sweep(Res.total$quali$contrib, 1, 
+                                 tab.indic.names.ql$eig.groups, "*")
+    Res.total$sqload.qt <- sweep(Res.total$quanti$contrib, 1, 
+                                 tab.indic.names.qt$eig.groups, "*")
+    Res.total$sqload.2 <- rbind(Res.total$sqload.qt, Res.total$sqload.ql)
+  }
   
   Res.total$sqload.2<-rbind(Res.total$sqload.qt,Res.total$sqload.ql)
   Res.total$sqload<-Res.total$sqload.2
