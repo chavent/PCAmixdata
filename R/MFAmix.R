@@ -83,7 +83,12 @@ MFAmix<-function(data, groups, name.groups, ndim=5, rename.level=FALSE,
   
   ponderation<-c(ponde.qt,ponde.ql)
   ponderation<-1/ponderation
-  Res.total<-PCAmix(data=cbind(base.qt,base.ql),ndim=ndim, rename.level=rename.level, graph=FALSE,weight.col=ponderation)
+  
+  if(is.null(base.qt)) base.pcamix<-base.ql
+  if(is.null(base.ql)) base.pcamix<-base.qt
+  if(!is.null(base.qt) & !is.null(base.ql))  base.pcamix<-cbind(base.qt,base.ql)
+  
+  Res.total<-PCAmix(data=base.pcamix,ndim=ndim, rename.level=rename.level, graph=FALSE,weight.col=ponderation)
   
   #Modification of values of squared loadings
   #equal to contribution multiplicated by the eigenvalue of the separate analysis of the group
