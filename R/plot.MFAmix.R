@@ -1,4 +1,4 @@
-plot.MFAmix<-function (x, axes = c(1, 2), choice = "axes", label=TRUE, coloring.var = NULL, coloring.ind=NULL,
+plot.MFAmix<-function (x, axes = c(1, 2), choice = "axes", label=TRUE, coloring.var = NULL, coloring.ind=NULL, nb.partial.axes=3,
                        col.ind=NULL, col.groups=NULL,  partial = NULL,chrono=FALSE, lim.cos2.plot = 0, lim.contrib.plot=0, xlim = NULL,  ylim = NULL,
                        cex = 1, main = NULL, new.plot = FALSE,leg=TRUE,posleg="topleft",cex.leg=0.8, ...) 
 {
@@ -106,6 +106,15 @@ plot.MFAmix<-function (x, axes = c(1, 2), choice = "axes", label=TRUE, coloring.
     }
     if (is.null(main)) 
       main <- "Partial axes"
+    
+    rowtoplot<-NULL
+    name.plot<-paste0("dim ",1:nb.partial.axes,".")
+    for (i in 1:nb.partial.axes){
+      rowtoplot<-c(rowtoplot,which(regexpr(name.plot[i], rownames(res.mfa$partial.axes$coord),fixed=T)==1))
+    }
+    rowtoplot<-sort(rowtoplot)
+    res.mfa$partial.axes$coord<-res.mfa$partial.axes$coord[rowtoplot,]
+    
     coord.axes <- res.mfa$partial.axes$coord[, axes, drop = FALSE]
     plot(0, 0, xlab = lab.x, ylab = lab.y, xlim = xlim, ylim = ylim, col = "white", asp = 1, 
          cex = cex, main = main,...)

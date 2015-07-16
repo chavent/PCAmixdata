@@ -8,7 +8,7 @@ Displays the graphical outputs of MFAmix. Individuals (observations), quantitati
 
 \usage{
 \method{plot}{MFAmix}(x, axes = c(1, 2), choice = "axes",
-label=TRUE, coloring.var = NULL, coloring.ind=NULL,
+label=TRUE, coloring.var = NULL, coloring.ind=NULL, nb.partial.axes=3,
 col.ind=NULL, col.groups=NULL,  partial = NULL, chrono=FALSE,
 lim.cos2.plot = 0, lim.contrib.plot=0, xlim = NULL,  ylim = NULL,
 cex = 1, main = NULL, new.plot = FALSE,leg=TRUE,
@@ -33,6 +33,7 @@ posleg="topleft",cex.leg=0.8, ...)
   \item{label}{boolean,  if FALSE the labels of the points are not plotted.}
   
    \item{coloring.ind}{a qualitative variable such as a character vector or a factor of size n (the number of individuals). The individuals are colored according to the levels of this variable. If NULL, the individuals are not colored.}
+   \item{nb.partial.axes}{if choice="axes", the number of partial axes related to each group to plot on the correlation circle. By default equal to 3.}
   
   \item{col.ind}{a vector of colors, of size the number of levels of \code{coloring.ind}. If NULL, colors are chosen automatically.}
   
