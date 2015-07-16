@@ -114,6 +114,7 @@ plot.MFAmix<-function (x, axes = c(1, 2), choice = "axes", label=TRUE, coloring.
     }
     rowtoplot<-sort(rowtoplot)
     res.mfa$partial.axes$coord<-res.mfa$partial.axes$coord[rowtoplot,]
+
     
     coord.axes <- res.mfa$partial.axes$coord[, axes, drop = FALSE]
     plot(0, 0, xlab = lab.x, ylab = lab.y, xlim = xlim, ylim = ylim, col = "white", asp = 1, 
