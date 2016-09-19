@@ -1,9 +1,9 @@
-PCAmix<- function (data,ndim=5,rename.level=FALSE,weight.col=NULL,weight.row=NULL,graph=TRUE)
+PCAmix<- function (X.quanti=NULL,X.quali=NULL,ndim=5,rename.level=FALSE,weight.col=NULL,weight.row=NULL,graph=TRUE)
 {
   cl <- match.call()
-  split.data<-splitmix(data)
-  X.quanti<-split.data$X.quanti
-  X.quali<-split.data$X.quali
+  #split.data<-splitmix(data)
+  #X.quanti<-split.data$X.quanti
+  #X.quali<-split.data$X.quali
   rec <- recod(X.quanti, X.quali,rename.level)
   n <- rec$n
   p <- rec$p
@@ -299,14 +299,14 @@ PCAmix<- function (data,ndim=5,rename.level=FALSE,weight.col=NULL,weight.row=NUL
   if (graph==TRUE) {
     plot.PCAmix(res)
     if (p1 != p) {
-      dev.new()
+      #dev.new()
       plot.PCAmix(res, choice = "levels")
     }
     if (p1 != 0) {
-      dev.new()
+      #dev.new()
       plot.PCAmix(res, choice = "cor")
     }
-    dev.new()
+    #dev.new()
     plot.PCAmix(res, choice = "sqload")
   }
   return(res)

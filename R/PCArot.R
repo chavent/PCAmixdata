@@ -107,14 +107,14 @@ PCArot<-function(obj,dim,itermax=100,graph=TRUE)
   if (graph) {
     plot.PCAmix(res,main="Scores after rotation")
     if (p1!=p) {
-      dev.new()
+      #dev.new()
       plot.PCAmix(res,choice="levels",main="Categories after rotation")
     }
     if (p1!=0) {
-      dev.new()
+      #dev.new()
       plot.PCAmix(res,choice="cor",main="Correlation circle after rotation")
     }
-    dev.new()
+    #dev.new()
     plot.PCAmix(res,choice="sqload",main="Squared loadings after rotation")
   }
   return(res)	

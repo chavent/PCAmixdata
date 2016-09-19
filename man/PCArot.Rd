@@ -69,7 +69,7 @@ If X.quali is not specified (i.e. NULL) in the previous PCAmix step, only quanti
 
 #PCAMIX:
 data(wine)
-pca<-PCAmix(data=wine[,c(1:29)],ndim=4,graph=FALSE)
+pca<-PCAmix(X.quanti=wine[,c(3:29)],X.quali=wine[,1:2],ndim=4,graph=FALSE)
 pca
 
 rot<-PCArot(pca,3)
@@ -97,7 +97,7 @@ plot(rot, choice="cor", main="Correlation circle after rotation")
 
 #MCA
 data(flower)
-mca <- PCAmix(data=flower[,1:4],rename.level=TRUE,graph=FALSE)
+mca <- PCAmix(X.quali=flower[,1:4],rename.level=TRUE,graph=FALSE)
 
 rot<-PCArot(mca,2)
 plot(rot,choice="ind",main="Scores after rotation")

@@ -54,9 +54,10 @@ MFAmix<-function(data, groups, name.groups, ndim=5, rename.level=FALSE,
   Lst.groups.stand<-list()
   
   for(i in 1:nbr.groups){
-    #base.qt<-splitmix(Lst.groups[[i]])$X.quanti
-    #base.ql<-splitmix(Lst.groups[[i]])$X.quali
-    Res.separe.pcamix[[i]]<-PCAmix(data=Lst.groups[[i]], ndim=ndim, rename.level=rename.level, graph=F)
+    base.qt<-splitmix(Lst.groups[[i]])$X.quanti
+    base.ql<-splitmix(Lst.groups[[i]])$X.quali
+    #Res.separe.pcamix[[i]]<-PCAmix(data=Lst.groups[[i]], ndim=ndim, rename.level=rename.level, graph=F)
+    Res.separe.pcamix[[i]]<-PCAmix(X.quanti=base.qt, X.quali=base.ql, ndim=ndim, rename.level=rename.level, graph=F)
     Lst.groups.stand[[i]]<-Res.separe.pcamix[[i]]$Z
   }
   names(Res.separe.pcamix)<-names(Lst.groups.stand)<-name.groups
@@ -84,12 +85,12 @@ MFAmix<-function(data, groups, name.groups, ndim=5, rename.level=FALSE,
   ponderation<-c(ponde.qt,ponde.ql)
   ponderation<-1/ponderation
   
-  if(is.null(base.qt)) base.pcamix<-base.ql
-  if(is.null(base.ql)) base.pcamix<-base.qt
-  if(!is.null(base.qt) & !is.null(base.ql))  base.pcamix<-cbind(base.qt,base.ql)
+  #   if(is.null(base.qt)) base.pcamix<-base.ql
+  #   if(is.null(base.ql)) base.pcamix<-base.qt
+  #   if(!is.null(base.qt) & !is.null(base.ql))  base.pcamix<-cbind(base.qt,base.ql)
   
-  Res.total<-PCAmix(data=base.pcamix,ndim=ndim, rename.level=rename.level, graph=FALSE,weight.col=ponderation)
-  
+  #Res.total<-PCAmix(data=base.pcamix,ndim=ndim, rename.level=rename.level, graph=FALSE,weight.col=ponderation)
+  Res.total<-PCAmix(X.quanti=base.qt, X.quali=base.ql,ndim=ndim, rename.level=rename.level, graph=FALSE,weight.col=ponderation)
   #Modification of values of squared loadings
   #equal to contribution multiplicated by the eigenvalue of the separate analysis of the group
   valP.groups<-data.frame(eig.groups,names(eig.groups))

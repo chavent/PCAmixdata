@@ -131,8 +131,7 @@ plot.PCAmix <- function(x,axes = c(1, 2), choice = "ind",label=TRUE,
     
     coord.ind<-coord.ind[select.ind, , drop=FALSE]
     col.plot.ind<-col.plot.ind[select.ind]
-    
-    
+     
     plot(coord.ind[, axes], xlim = xlim, ylim = ylim, xlab = lab.x, 
          ylab = lab.y, pch = 20, col = as.character(col.plot.ind), 
          cex = cex, main=main, ...)
@@ -164,6 +163,7 @@ plot.PCAmix <- function(x,axes = c(1, 2), choice = "ind",label=TRUE,
       ymax <- max(res.pca$sqload[, dim2])
       ylim <- c(-0.1, ymax * 1.2)
     }
+   
     plot(0, 0, type = "n", xlab = lab.x, ylab = lab.y, xlim = xlim, 
          ylim = ylim, cex = cex,main=main, ...)
     abline(v = 0, lty = 2, cex = cex)
@@ -254,7 +254,6 @@ plot.PCAmix <- function(x,axes = c(1, 2), choice = "ind",label=TRUE,
       ylim <- c(ymin, ymax) * 1.2
     }
     
-    
     plot(0,0, xlim = xlim, ylim = ylim,
          xlab = lab.x, ylab = lab.y, type="n", cex = cex,main=main, ...)
     abline(h = 0, lty = 2, cex = cex)
@@ -330,7 +329,7 @@ plot.PCAmix <- function(x,axes = c(1, 2), choice = "ind",label=TRUE,
     }
     
     col<-rep(1,p1)
-    
+     
     plot(0, 0, main = main, xlab = lab.x, ylab = lab.y, 
          xlim = xlim, ylim = ylim, col = "white", 
          asp = 1, cex = cex,...)

@@ -5,7 +5,7 @@
   splitmix(base)
 }
 \description{
-  Splits a mixed data matrix in two data sets: one with the quantitative variables and one with the qualitative variables.
+  Splits a mixed data matrix in two data sets: one with the quantitative variables and one with the qualitative variables. Here, the columns of class "integer are considered quantitative. If you want this column to be considered as qualitative, it must be of class character of factor.
 }
 
 \arguments{

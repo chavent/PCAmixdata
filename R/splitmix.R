@@ -1,11 +1,27 @@
 splitmix<-function(base){
   type<-NULL
   base<-data.frame(base,check.names=T)
+  testint <- FALSE
   for (v in 1:ncol(base)) {
-    if (!is.numeric(base[, v])) 
+    if (is.numeric(base[, v])) 
+      type = c(type, "QT")
+    if (is.integer(base[, v])) 
+    {
+     #warning("Columns of class integer are considered as quantitative")
+      testint <- TRUE
+      
+    }
+    if (is.character(base[, v])) 
+    {
       type = c(type, "QL")
-    else type = c(type, "QT")
+      #warning("Columns of class character are considered as qualititative")
+    } 
+    if (is.factor(base[, v])) 
+    {
+      type = c(type, "QL")
+    } 
   }
+  if (testint) warning("Columns of class integer are considered as quantitative")
   ind.QT<-which(type=="QT")
   ind.QL<-which(type=="QL")
   ind.tot<-factor(type)
@@ -22,7 +38,6 @@ splitmix<-function(base){
     typ.group<-"QL"
   } else 
     typ.group<-"QT"
-  
   
   return(list(X.quanti=X.quanti,X.quali=X.quali,typ.group=typ.group))
 }
