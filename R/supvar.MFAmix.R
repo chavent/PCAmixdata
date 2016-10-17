@@ -137,7 +137,8 @@ supvar.MFAmix <- function(obj, data.sup, groups.sup, name.groups.sup,rename.leve
   
   coord.group.sup <- matrix(NA,ngroup,ndim)
   for (i in 1:ngroup)
-    coord.group.sup[i,] <- apply(sqload.sup[index.group==i,,drop=FALSE],2,sum)
+    #coord.group.sup[i,] <- apply(sqload.sup[index.group==i,,drop=FALSE],2,sum)
+    coord.group.sup[i,] <- apply(sqload.sup[index.group==i,,drop=FALSE],2,sum)/res.separate.pcamix[[i]]$eig[1,1]
   colnames(coord.group.sup) <- colnames(sqload.sup)
   rownames(coord.group.sup) <- name.groups.sup
   
