@@ -2,8 +2,8 @@
 \alias{PCAmix}
 \title{Principal component analysis of mixed data}
 \usage{
-  PCAmix(X.quanti = NULL, X.quali = NULL, ndim = 5, rename.level=FALSE,
-    weight.col = NULL, weight.row = NULL, graph = TRUE)
+  PCAmix(X.quanti=NULL,X.quali=NULL,ndim=5,rename.level=FALSE,
+        weight.col.quanti=NULL,weight.col.quali=NULL,graph=TRUE)
 }
 
 \description{
@@ -29,11 +29,9 @@ a categorical matrix of data, or an object that can be coerced to such a matrix 
   the individuals, plot of the squared loadings of all the variables (quantitative and qualitative), plot of the correlation circle (if
   quantitative variables are available), component map of the levels (if qualitative variables are available).}
 
-  \item{weight.col}{the vector of the weights of the
-  quantitative variables and the weights of the dummy variables of the levels. If \code{NULL}, the weights are all equal to 1.}
+  \item{weight.col.quanti}{vector  of weights for the quantitative variables.}
+  \item{weight.col.quali}{vector of the weights for the qualitative variables.}
 
-  \item{weight.row}{the vector of the weights of the
-  individuals. If \code{NULL}, the weights are all equal to 1/\code{n}.}
 }
 
 \details{
@@ -118,7 +116,7 @@ Revue de statistique appliquee, 52(4):93-111.
 \examples{
 #PCAMIX:
 data(wine)
-lapply(wine,class)
+str(wine)
 X.quanti <- splitmix(wine)$X.quanti
 X.quali <- splitmix(wine)$X.quali
 pca<-PCAmix(X.quanti[,1:27],X.quali,ndim=4)

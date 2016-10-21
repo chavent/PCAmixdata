@@ -134,6 +134,8 @@ supvar.MFAmix <- function(obj, data.sup, groups.sup, name.groups.sup,rename.leve
   indexg <- c(index1,index2)
   
   # result for supplementary groups
+  # the coordinate of a supp group is the sum of the squared loadings if its variables
+  # divided by the first eigen value of its PCAmix. It is a weighted Lg coefficient
   
   coord.group.sup <- matrix(NA,ngroup,ndim)
   for (i in 1:ngroup)

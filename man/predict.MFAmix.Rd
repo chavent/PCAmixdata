@@ -8,7 +8,7 @@ on the principal components of MFAmix. In other words, this function is projecti
 }
 
 \usage{
-  \method{predict}{MFAmix}(object, data, groups, name.groups,...)
+  \method{predict}{MFAmix}(object, data, rename.level=FALSE,...)
 }
 \arguments{
   \item{object}{an object of class MFAmix (output of the
@@ -17,11 +17,7 @@ on the principal components of MFAmix. In other words, this function is projecti
  \item{data}{a data frame containing the description of the new observations on all the variables. This data frame  will be split into \code{G} groups according to the vector
   \code{groups}.}
 
-  \item{groups}{a vector of size \code{p} whose values
-  indicate at which group each variable belongs.}
-
-  \item{name.groups}{a vector of size \code{G} which
-  contains the names of the groups. Spaces and special characters are not allowed.}
+ \item{rename.level}{boolean, if TRUE all the levels of the qualitative variables are renamed as follows: "variable_name=level_name". This prevents to have identical names for the levels.}
   
   \item{...}{further arguments passed to or from other methods. They are ignored in this function.}
 }
@@ -31,19 +27,25 @@ on the principal components of MFAmix. In other words, this function is projecti
 }
 
 \examples{
-#MFAmix:
 data(gironde)
 class.var<-c(rep(1,9),rep(2,5),rep(3,9),rep(4,4))
-nom.groupes<-c("employment","housing","services","environment")
-data.mfamix<-cbind(gironde$employment,gironde$housing,
+names<-c("employment","housing","services","environment")
+dat<-cbind(gironde$employment,gironde$housing,
                 gironde$services,gironde$environment)
-res<-MFAmix(data=data.mfamix,groups=class.var,name.groups=nom.groupes, 
-              rename.level=TRUE, ndim=3,graph=FALSE)
+n <- nrow(dat)
+set.seed(10)
+sub <- sample(1:n,520)
 
-#Predict on the same data, we obtain the same scores
-res.pred<-predict(res,data=data.mfamix,groups=class.var,
-                name.groups=nom.groupes)
-res$ind$coord/res.pred
+res<-MFAmix(data=dat[sub,],groups=class.var,
+      name.groups=names, rename.level=TRUE, 
+      ndim=3,graph=FALSE)
+
+#Predict scores of new data
+pred<-predict(res,data=dat[-sub,])
+plot(res,choice="ind",cex=0.6,lim.cos2.plot=0.7)  
+points(pred[1:5,c(1,2)],col=2,pch=16,cex=0.6)
+text(pred[1:5,c(1,2)], labels = rownames(dat[-sub,])[1:5],
+     col=2,pos=3,cex=0.6)
 
 }
 \seealso{

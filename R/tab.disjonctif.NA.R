@@ -1,4 +1,4 @@
-
+##' @export
 tab.disjonctif.NA <-
   function (tab,rename.level=FALSE) {
     tab <- as.data.frame(tab)

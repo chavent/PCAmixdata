@@ -1,3 +1,4 @@
+##' @export
 recodquant <-
   function(X)
   {
@@ -16,6 +17,6 @@ recodquant <-
     mean.Xcod <- apply(Xcod,2,mean)
     Z<- scale(Xcod,scale=sd.Xcod) 
     apply(Z,1,function(x) sum(is.na(x))) 
-    if (sum(is.na(Z))!= 0) stop("There are columns in X.quanti where all the values are identical")
+    if (sum(is.na(Z))!= 0) stop("There are columns in X.quanti where all the values are identical",call.=FALSE)
     return(list(Z=Z,g=mean.Xcod,s=sd.Xcod,Xcod=Xcod))
   }

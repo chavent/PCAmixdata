@@ -14,11 +14,9 @@ Performs multiple factor analysis to analyze a set of individuals (observations)
   will be split into \code{G} groups according to the vector
   \code{groups}.}
 
-  \item{groups}{a vector of size \code{p} whose values
-  indicate at which group each variable belongs.}
+  \item{groups}{a vector which gives the groups of the columns in \code{data}.}
 
-  \item{name.groups}{a vector of size \code{G} which
-  contains the names of the groups. Spaces and special characters are not allowed.}
+  \item{name.groups}{a vector of size \code{G} which gives the names of the groups.}
 
   \item{ndim}{number of dimensions kept in the results (by default 5).}
   
@@ -81,18 +79,17 @@ Performs multiple factor analysis to analyze a set of individuals (observations)
   \itemize{
   \item \code{$Lg}: Lg coefficients between groups,
   \item \code{$RV}: RV coefficients between groups,
-  \item \code{$coord}:  coordinates of the groups (equal to relative contributions divided by 100),
   \item \code{$contrib}: contributions of the groups (sum of variable contributions belonging to the group)
-  \item \code{$contrib.pct}:  relative contributions of the groups,
+  \item \code{$contrib.pct}:  relative contributions of the groups times 100,
   }}
 
   \item{partial.axes}{a matrix containing the coordinates of the partial axes.}
 
-
-  \item{ind.partial}{a list of \code{G} matrices containing the coordinates
-  of the partial individuals of the groups.}
-
-  
+   \item{ind.partial}{a list of \code{G} matrices containing the coordinates
+  of the partial individuals.}
+ 
+   \item{listvar.group}{list the variables in each group. It is usefull to check the adequacy between the vector \code{groups} and the vector \code{name.groups}.}
+   
   \item{global.pca}{an object of class \code{PCAmix} containing the results of \code{MFAmix} considered as a unique \code{PCAmix}.}
 }
 

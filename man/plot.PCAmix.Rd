@@ -8,7 +8,7 @@ Displays the graphical outputs of PCAmix and PCArot. The individuals (observatio
 }
 \usage{
 \method{plot}{PCAmix}(x,axes = c(1, 2), choice = "ind",label=TRUE,
-                        coloring.ind=NULL,col.ind=NULL, coloring.var=NULL,
+                        coloring.ind=NULL,col.ind=NULL, coloring.var=FALSE,
                         lim.cos2.plot=0,lim.contrib.plot=0, posleg="topleft",
                         xlim=NULL,ylim=NULL, cex=1,leg=TRUE,main=NULL,cex.leg=1, ...)
 }
@@ -36,7 +36,7 @@ Displays the graphical outputs of PCAmix and PCArot. The individuals (observatio
 
 \item{col.ind}{a vector of colors, of size the number of levels of \code{coloring.ind}. If NULL, colors are chosen automatically.}
 
-\item{coloring.var}{If "type", the variables in the plot of the squared loadings are colored according to their type (quantitative or qualitative). If NULL, variables are not colored.
+\item{coloring.var}{boolean, if TRUE, the variables in the plot of the squared loadings are colored according to their type (quantitative or qualitative).
   }
   
 \item{lim.cos2.plot}{a value between 0 and 1. Points with squared cosinus below this value are not plotted.}
@@ -49,10 +49,10 @@ Displays the graphical outputs of PCAmix and PCArot. The individuals (observatio
 position of the legend.
 }
   \item{xlim}{
-a numeric vectors of length 2, giving the x coordinates range.
+a numeric vectors of length 2, giving the x coordinates range. If NULL (by default) the range is defined automatically (recommended). 
 }
   \item{ylim}{
-a numeric vectors of length 2, giving the y coordinates range.
+a numeric vectors of length 2, giving the y coordinates range. If NULL (by default) the range is defined automatically (recommended).
 }
 
   \item{main}{a string corresponding to the title of the
@@ -99,26 +99,38 @@ X.quali <- splitmix(base)$X.quali
 res<-PCAmix(X.quanti, X.quali, rename.level=TRUE, ndim=3,graph=FALSE)
 
 #----quantitative variables on the correlation circle
-plot(res,choice="cor",cex=0.6)
+plot(res,choice="cor",cex=0.8)
 
 #----individuals component map
-plot(res,choice="ind",cex=0.6)
+plot(res,choice="ind",cex=0.8)
 
 #----individuals colored with the qualitative variable "houses"
-plot(res,choice="ind",cex=0.6,coloring.ind=X.quali$houses) 
+houses <- X.quali$houses
+plot(res,choice="ind",cex=0.6,coloring.ind=houses) 
 
-#----individuals selected according to their squared cosine
-plot(res,choice="ind",cex=0.6,lim.contrib.plot=0.8)
+#----individuals selected according to their cos2
+plot(res,choice="ind",cex=0.6,lim.cos2.plot=0.8)
+
 
 #----all the variables plotted with the squared loadings
-plot(res,choice="sqload",cex=0.6)
+plot(res,choice="sqload",cex=0.8)
 
 #----variables colored according to their type (quanti or quali)
-plot(res,choice="sqload",cex=0.6,coloring.var="type") 
+plot(res,choice="sqload",cex=0.8,coloring.var=TRUE) 
 
 #----levels component map
-plot(res,choice="levels",cex=0.6)
+plot(res,choice="levels",cex=0.8)
 
-
+#----example with supplementary variables
+data(wine)
+X.quanti <- splitmix(wine)$X.quanti[,1:5]
+X.quali <- splitmix(wine)$X.quali[,1,drop=FALSE]
+X.quanti.sup <-splitmix(wine)$X.quanti[,28:29]
+X.quali.sup <-splitmix(wine)$X.quali[,2,drop=FALSE]
+pca<-PCAmix(X.quanti,X.quali,ndim=4,graph=FALSE)
+pca2 <- supvar(pca,X.quanti.sup,X.quali.sup)
+plot(pca2,choice="levels")
+plot(pca2,choice="cor")
+plot(pca2,choice="sqload")
 }
 

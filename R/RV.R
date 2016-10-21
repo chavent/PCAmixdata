@@ -1,3 +1,4 @@
+##' @export
 RV<-function(liste.mat){
   Lg<-Lg(liste.mat)
   RV<-matrix(NA,ncol=ncol(Lg),nrow=nrow(Lg))
