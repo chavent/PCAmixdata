@@ -1,3 +1,4 @@
+##' @export
 recodqual <-
 function(X,rename.level=FALSE)
 	{
@@ -7,7 +8,7 @@ function(X,rename.level=FALSE)
 		ns <- apply(G,2,sum)
 		nmiss <- apply((apply(GNA,2,is.na)),2,sum)
 		n <- nrow(X)
-		if(sum((n-nmiss)==ns)!=0) stop("There are columns in X.quali where all the categories are identical")
+		if(sum((n-nmiss)==ns)!=0) stop("There are columns in X.quali where all the categories are identical",call.=FALSE)
 		return(G)	
 	}
 

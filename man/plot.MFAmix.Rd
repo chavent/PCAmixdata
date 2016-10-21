@@ -8,11 +8,12 @@ Displays the graphical outputs of MFAmix. Individuals (observations), quantitati
 
 \usage{
 \method{plot}{MFAmix}(x, axes = c(1, 2), choice = "axes",
-label=TRUE, coloring.var = NULL, coloring.ind=NULL, nb.partial.axes=3,
-col.ind=NULL, col.groups=NULL,  partial = NULL, chrono=FALSE,
+label=TRUE, coloring.var = "not", coloring.ind=NULL, 
+nb.partial.axes=3,col.ind=NULL, col.groups=NULL,  partial = NULL,
 lim.cos2.plot = 0, lim.contrib.plot=0, xlim = NULL,  ylim = NULL,
 cex = 1, main = NULL, new.plot = FALSE,leg=TRUE,
-posleg="topleft",cex.leg=0.8, ...)
+posleg="topleft",cex.leg=0.8, 
+col.groups.sup=NULL,posleg.sup="topright",nb.paxes.sup=3,...)
 }
 
 \arguments{
@@ -33,7 +34,7 @@ posleg="topleft",cex.leg=0.8, ...)
   \item{label}{boolean,  if FALSE the labels of the points are not plotted.}
   
    \item{coloring.ind}{a qualitative variable such as a character vector or a factor of size n (the number of individuals). The individuals are colored according to the levels of this variable. If NULL, the individuals are not colored.}
-   \item{nb.partial.axes}{if choice="axes", the number of partial axes related to each group to plot on the correlation circle. By default equal to 3.}
+   \item{nb.partial.axes}{if choice="axes", the maximum number of partial axes related to each group to plot on the correlation circle. By default equal to 3.}
   
   \item{col.ind}{a vector of colors, of size the number of levels of \code{coloring.ind}. If NULL, colors are chosen automatically.}
   
@@ -46,12 +47,8 @@ posleg="topleft",cex.leg=0.8, ...)
   \item{col.groups}{a vector of colors, of size the number of groups. If NULL, colors are chosen automatically.}
 
 
-  \item{partial}{a vector with the row names of the individuals, for which the partial points should be drawn.
-  (by default, partial = NULL and no partial points are
-  drawn). Partial points are colored according to \code{col.groups}}
+  \item{partial}{a vector of class character with the row names of the individuals, for which the partial individuals should be drawn. By default partial = NULL and no partial points are drawn. Partial points are colored according to \code{col.groups}}
   
-  \item{chrono}{boolean, if TRUE, the partial points are linked (useful when groups correspond to different times).}
-
 
 \item{lim.cos2.plot}{a value between 0 and 1. Points with squared cosinus below this value are not plotted.}
   
@@ -60,10 +57,10 @@ posleg="topleft",cex.leg=0.8, ...)
   \item{posleg}{position of the legend.}
   
   \item{xlim}{a numeric vectors of length 2, giving the x
-  coordinates range.}
+  coordinates range. If NULL (by default) the range is defined automatically (recommended).}
 
   \item{ylim}{a numeric vectors of length 2, giving the y
-  coordinates range.}
+  coordinates range. If NULL (by default) the range is defined automatically (recommended).}
   
  \item{main}{a string corresponding to the title of the
   graph to draw.}
@@ -78,6 +75,12 @@ posleg="topleft",cex.leg=0.8, ...)
   
   \item{cex.leg}{a numerical value giving the amount by which
   the legend should be magnified. Default is 0.8.}
+  
+  \item{posleg.sup}{position of the legend for the supplementary groups.}
+  
+   \item{col.groups.sup}{a vector of colors, of size the number of supplementary groups. If NULL, colors are chosen automatically.}
+   
+    \item{nb.paxes.sup}{if choice="axes", the maximum number of partial axes of supplementary groups ploted on the correlation circle. By default equal to 3.}
   
   \item{...}{arguments to be passed to methods, such as graphical parameters.}
 }
@@ -142,10 +145,9 @@ nbchem <- gironde$services$chemist[1:20]
 plot(res,choice="ind",cex=0.6,coloring.ind=nbchem,
     posleg="topright")   
 plot(res,choice="ind",coloring.ind=nbchem,
-  col.ind=c("pink","brown","darkblue"),label=FALSE,posle="topright")     
+  col.ind=c("pink","brown","darkblue"),label=FALSE,posleg="topright")     
 
 #----partial individuals colored by groups
-plot(res,choice="ind",partial="all",cex=0.6)
 plot(res,choice="ind",partial=c("AUBIAC","ARCACHON"),
     cex=0.6,posleg="bottomright")
 
@@ -155,9 +157,31 @@ plot(res,choice="levels",cex=0.8,coloring.var="groups")
 
 #levels with squared cosine greater than 0.6
 plot(res,choice="levels",cex=0.8, lim.cos2.plot=0.6)
+
+#supplementary groups
+data(wine)
+X.quanti <- splitmix(wine)$X.quanti[,1:5]
+X.quali <- splitmix(wine)$X.quali[,1,drop=FALSE]
+X.quanti.sup <- splitmix(wine)$X.quanti[,28:29]
+X.quali.sup <- splitmix(wine)$X.quali[,2,drop=FALSE]
+data <- cbind(X.quanti,X.quali)
+data.sup <- cbind(X.quanti.sup,X.quali.sup)
+
+groups <-c(1,2,2,3,3,1)
+name.groups <- c("G1","G2","G3")
+groups.sup <- c(1,1,2)
+name.groups.sup <- c("Gsup1","Gsup2")
+mfa <- MFAmix(data,groups,name.groups,ndim=4,rename.level=TRUE,graph=FALSE)
+mfa.sup <- supvar(mfa,data.sup,groups.sup,name.groups.sup,rename.level=TRUE)
+plot(mfa.sup,choice="sqload",coloring.var="groups")
+plot(mfa.sup,choice="axes",coloring.var="groups")
+plot(mfa.sup,choice="groups",coloring.var="groups")
+plot(mfa.sup,choice="levels",coloring.var="groups")
+plot(mfa.sup,choice="levels")
+plot(mfa.sup,choice="cor",coloring.var = "groups")
 }
 
 \author{
-  Amaury Labenne \email{amaury.labenne@irstea.fr},
-  Marie Chavent, Vanessa Kuentz, Benoit Liquet, Jerome Saracco
+  Amaury Labenne,
+  Marie Chavent \email{marie.chavent@u-bordeaux.fr}, Vanessa Kuentz, Benoit Liquet, Jerome Saracco
 }

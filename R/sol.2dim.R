@@ -1,3 +1,4 @@
+##' @export
 sol.2dim <- function(A,indexj,p,p1)
 {
   uj <- rep(NA,p)

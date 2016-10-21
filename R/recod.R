@@ -1,16 +1,19 @@
+##' @export
 recod <-
   function(X.quanti,X.quali,rename.level=FALSE)
   {
     G <- NULL
     Gcod <- NULL
+    nbmoda <- NULL
     if (!is.null(X.quanti)){
       if (is.factor(X.quanti))
-        stop("All variables in X.quanti must be numerical")
+        stop("All variables in X.quanti must be numerical",call. = FALSE)
       if (is.numeric(X.quanti)) 
         X.quanti <- data.frame(X.quanti)
       for (v in 1:ncol(X.quanti)) {
         if (!is.numeric(X.quanti[, v])) 
-          stop("All variables in X.quanti must be numeric")}
+          stop("All variables in X.quanti must be numeric",call. = FALSE)
+        }
       n1 <- nrow(X.quanti)
       p1 <- ncol(X.quanti)
       
@@ -22,18 +25,18 @@ recod <-
     }
     if (!is.null(X.quali)){
       if (is.numeric(X.quali))
-        stop("All variables in X.quali must be categorical")
+        stop("All variables in X.quali must be categorical",call.=FALSE)
       if (is.factor(X.quali)) 
         X.quali <- data.frame(X.quali)
       for (v in 1:ncol(X.quali)) {
         if (is.numeric(X.quali[, v])) 
-          stop("All variables in X.quali must be categorical") }      
+          stop("All variables in X.quali must be categorical",call.=FALSE) }      
       vect.all.levels<-as.character(unlist(apply(X.quali,2,unique)))
       vect.all.levels.unique<-unique(vect.all.levels)
       test.name.categ<-length(vect.all.levels)==length(vect.all.levels.unique)      
       if(test.name.categ==FALSE && rename.level==FALSE)
         stop("Some categorical variables have same names of categories,
-             rename categories or use the option rename.level=TRUE to rename it automatically")
+             rename categories or use the option rename.level=TRUE to rename it automatically",call.=FALSE)
       for (v in 1:ncol(X.quali)) X.quali[,v] <- factor(as.character(X.quali[,v])) 
       n2 <- nrow(X.quali)
       p2 <- ncol(X.quali)
@@ -67,7 +70,7 @@ recod <-
         X <- cbind.data.frame(X.quanti,X.quali)
         indexj <- c(1:p1,indexj2+p1)
       } else 
-        stop("number of objects in X.quanti and X.quali must be the same")
+        stop("number of objects in X.quanti and X.quali must be the same",call.=FALSE)
     if (!is.null(X.quanti)&& is.null(X.quali)) {
       n <- n1
       p <- p1
@@ -93,14 +96,15 @@ recod <-
       indexj <- indexj2 
     } 
     if (is.null(X.quanti)&& is.null(X.quali))
-      stop("A data matrix must be given")
+      stop("A data matrix must be given",call.=FALSE)
     
     if (is.null(colnames(X))) 
       colnames(X) <- paste("V", 1:ncol(X), sep = "")
     for (j in 1:ncol(X)) if (colnames(X)[j] == "") 
       colnames(X)[j] <- paste("V", j, sep = "")
     
-    return(list(X=X,Y=Y,Z=Z,W=W,n=n,p=p,p1=p1,p2=p2,g=g,s=s,indexj=indexj,G=G,Gcod=Gcod,X.quanti=X.quanti,X.quali=X.quali))
+    return(list(X=X,Y=Y,Z=Z,W=W,n=n,p=p,p1=p1,p2=p2,g=g,s=s,indexj=indexj,
+                G=G,Gcod=Gcod,X.quanti=X.quanti,X.quali=X.quali,nbmoda=nbmoda))
   }
 
 

@@ -1,10 +1,11 @@
+##' @export
 PCArot<-function(obj,dim,itermax=100,graph=TRUE)
 {
   cl <- match.call()
   if (!inherits(obj, "PCAmix")) 
     stop("use only with \"PCAmix\" objects")
-  if (dim <= 1) stop("'dim' must be an interger greater or equal to 2")
-  if (dim > ncol(obj$A)) stop("'dim' must be an integer smaller or equal to 'ndim' specified in 'PCAmix'")
+  if (dim <= 1) stop("'dim' must be an interger greater or equal to 2",call. = FALSE)
+  if (dim > ncol(obj$A)) stop("'dim' must be an integer smaller or equal to 'ndim' specified in 'PCAmix'",call. = FALSE)
   A <- obj$A[,1:dim] 
   V<- obj$V[,1:dim] 
   V<-sqrt(obj$M)*V
@@ -47,7 +48,7 @@ PCArot<-function(obj,dim,itermax=100,graph=TRUE)
         if (round(theta,digits=3)==0)
           cptthetazero <- cptthetazero+1  
       }
-      if (iter>itermax)	stop("Stop: maximum number of iterations reached.")	
+      if (iter>itermax)	stop("Stop: maximum number of iterations reached.",call. = FALSE)	
     }
     theta <- NULL
     T <- t(scores.stand)%*%scores.stand.rot/n
@@ -102,7 +103,7 @@ PCArot<-function(obj,dim,itermax=100,graph=TRUE)
   res.quali<-list(coord=C)
   res <- list(call = cl,theta=theta,T=T,eig=eig,ind=res.ind,quanti=res.quanti,levels=res.levels,quali=res.quali,
               coef=coef,sqload=sqload.rot, scores.stand=scores.stand.rot,scores=scores.rot,
-              categ.coord=A2coord,quanti.cor=A1,quali.eta2=C,ndim=dim,rec=obj$rec,iter=iter,V=V.rot)
+              categ.coord=A2coord,quanti.cor=A1,quali.eta2=C,ndim=dim,rec=obj$rec,iter=iter,V=V.rot,rename.level=obj$rename.level)
   class(res) <- "PCAmix"
   if (graph) {
     plot.PCAmix(res,main="Scores after rotation")

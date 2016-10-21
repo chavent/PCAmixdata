@@ -1,3 +1,4 @@
+##' @export
 svd.triplet<-function (X, row.w = NULL, col.w = NULL, ncp = Inf) 
 {
   if (is.null(row.w)) 

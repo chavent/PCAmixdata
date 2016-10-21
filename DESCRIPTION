@@ -1,10 +1,12 @@
 Package: PCAmixdata
 Type: Package
 Title: Multivariate Analysis of Mixed Data
-Version: 2.3
-Date: 2015-07-09
-Author: Marie Chavent and Vanessa Kuentz and Amaury Labenne and Benoit Liquet and Jerome Saracco.
-Maintainer: Amaury Labenne <amaury.labenne@irstea.fr>
-Description: Principal Component Analysis, orthogonal rotation and multiple factor analysis for a mixture of quantitative and qualitative variables.
+Version: 3.0
+Date: 2016-10-09
+Author: Marie Chavent and Vanessa Kuentz and Amaury Labenne and Benoit Liquet
+    and Jerome Saracco.
+Maintainer: Marie Chavent <marie.chavent@u-bordeaux.fr>
+Description: Principal Component Analysis, orthogonal rotation and multiple
+    factor analysis for a mixture of quantitative and qualitative variables.
 License: GPL (>=2.0)
-
+RoxygenNote: 5.0.1

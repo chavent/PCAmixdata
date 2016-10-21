@@ -1,3 +1,5 @@
+##' @export
+##' @method print PCAmix
 print.PCAmix <- function(x, ...){
   if (!inherits(x, "PCAmix")) 
     stop("use only with \"PCAmix\" objects")
@@ -35,6 +37,14 @@ print.PCAmix <- function(x, ...){
     res[5,] <- c("$quali", "results for the qualitative variables (contrib,relative contrib)")
     res[6,] <- c("$sqload", "squared loadings")
     res[7,] <- c("$coef", "coef of the linear combinations defining the PC")
+  }
+  if (!(is.null(x$sqload.sup)))
+  {
+    sup <- matrix("",3,2)
+    sup[1,] <- c("$quanti.sup", "results for the supplementary quantitative variables")
+    sup[2,] <- c("$levels.sup", "results for the levels of the qualitative variables")
+    sup[3,] <- c("$sqload.sup", "squared loadings of the supplementary variables")
+    res <- rbind(res,sup)
   }
   print(res)
 }
