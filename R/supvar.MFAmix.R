@@ -1,4 +1,4 @@
-##' @export
+##' @export 
 ##' @name supvar.MFAmix
 ##' @method supvar MFAmix
 ##' @title  Supplementary variables in MFAmix
@@ -44,10 +44,14 @@ supvar.MFAmix <- function(obj, data.sup, groups.sup, name.groups.sup,rename.leve
   
   #reorder the data matrix by block 
   data.ord <- data.groups[[1]]
-  for(g in 2:ngroup)
+  if (ngroup>1)
   {
-    data.ord <- cbind(data.ord, data.groups[[g]])
+    for(g in 2:ngroup)
+    {
+      data.ord <- cbind(data.ord, data.groups[[g]])
+    }
   }
+ 
   
   #from now we use these data
   groups<-rep(1:ngroup,size.groups)
