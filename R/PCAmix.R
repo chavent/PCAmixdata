@@ -177,12 +177,30 @@ PCAmix<- function (X.quanti=NULL,X.quali=NULL,ndim=5,rename.level=FALSE,
   if (p2 >0) A2rot <- sweep(A2,1,STATS=sqrt(ns/n) ,FUN="*")
   A <- rbind(A1,A2rot) 
   Z <- rec$Z
-  res <- list(call = cl, eig = eig, scores.stand = U, 
-              scores = F, V = V, sqload = sqload, A = A, 
-              categ.coord = A2, quanti.cor = A1, quali.eta2 = quali.eta2, rec = rec, 
-              ndim = ndim, W = W, ind = result.ind, quanti = result.quanti, 
-              levels = result.levels,quali=result.quali, coef = coef, Z = Z, M = M.col,
-              quanti.sup=NULL,levels.sup=NULL,sqload.sup=NULL,rename.level=rename.level)
+  res <- list(call = cl, 
+              eig = eig, 
+              ind = result.ind,
+              quanti = result.quanti, 
+              levels = result.levels,
+              quali=result.quali,
+              sqload = sqload, 
+              coef = coef, Z = Z, 
+              M = M.col,
+              quanti.sup=NULL,
+              levels.sup=NULL,
+              sqload.sup=NULL,
+              rec.sup=NULL,
+              scores.stand = U, 
+              scores = F, 
+              V = V, 
+              A = A, 
+              categ.coord = A2, 
+              quanti.cor = A1, 
+              quali.eta2 = quali.eta2, 
+              rec = rec, 
+              ndim = ndim, 
+              W = W, 
+              rename.level=rename.level)
   class(res) <- "PCAmix"
   if (graph==TRUE) {
     plot.PCAmix(res)

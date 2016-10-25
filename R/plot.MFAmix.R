@@ -102,9 +102,9 @@ plot.MFAmix<-function (x, axes = c(1, 2), choice = "axes", label=TRUE, coloring.
  
   if (sup)
   {
-    p.sup <- nrow(res.mfa$sqload.sup)
-    p1.sup <- nrow(res.mfa$quanti.sup$coord)
-    p2.sup <- p.sup-p1.sup
+    p.sup <- res.mfa$rec.sup$p
+    p1.sup <- res.mfa$rec.sup$p1
+    p2.sup <- res.mfa$rec.sup$p2
   }
  
   

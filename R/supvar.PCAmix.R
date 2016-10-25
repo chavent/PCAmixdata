@@ -79,8 +79,11 @@ supvar.PCAmix <- function(obj,X.quanti.sup=NULL,X.quali.sup=NULL,rename.level=FA
       sqload.sup[(p1+j),] <- apply(C[levelj,,drop=FALSE],2,sum)
     }
   }
-  pca$quanti.sup=quanti.sup
-  pca$levels.sup=levels.sup
-  pca$sqload.sup=sqload.sup
+  if (!is.null(quanti.sup))
+    pca$quanti.sup <- quanti.sup
+  if (!is.null(levels.sup))
+    pca$levels.sup <- levels.sup
+  pca$sqload.sup <- sqload.sup
+  pca$rec.sup <- rec.sup
   return(pca)
 }

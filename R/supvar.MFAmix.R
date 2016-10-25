@@ -147,17 +147,17 @@ supvar.MFAmix <- function(obj, data.sup, groups.sup, name.groups.sup,rename.leve
     coord.group.sup[i,] <- apply(sqload.sup[index.group==i,,drop=FALSE],2,sum)/res.separate.pcamix[[i]]$eig[1,1]
   colnames(coord.group.sup) <- colnames(sqload.sup)
   rownames(coord.group.sup) <- name.groups.sup
-  
-  mfa$levels.sup <- levels.sup
-  mfa$quanti.sup <- quanti.sup
+  if (!is.null(levels.sup))
+    mfa$levels.sup <- levels.sup
+  if (!is.null(quanti.sup))
+    mfa$quanti.sup <- quanti.sup
   mfa$sqload.sup <- sqload.sup
   mfa$partial.axes.sup <- partial.axes.sup
   mfa$listvar.group.sup <- listvar.group
-  mfa$levels.sup
   mfa$group.sup <- coord.group.sup
   mfa$index.groupsup <- index.group
   mfa$index.groupsup2 <- indexg
-
+  mfa$rec.sup <- rec.sup
   
   return(mfa)
 }
