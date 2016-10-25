@@ -19,10 +19,12 @@ MFAmix<-function(data, groups, name.groups, ndim=5, rename.level=FALSE,
 
   #reorder the data matrix by block 
   data.ord <- data.groups[[1]]
-  for(g in 2:ngroup)
-  {
-    data.ord <- cbind(data.ord, data.groups[[g]])
-  }
+  if (ngroup > 1)
+    for(g in 2:ngroup)
+    {
+      data.ord <- cbind(data.ord, data.groups[[g]])
+    }
+
   
   #from now we use these data
   groups<-rep(1:ngroup,size.groups)
