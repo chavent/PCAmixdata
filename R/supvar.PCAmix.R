@@ -1,39 +1,40 @@
-##' @export
-##' @name supvar
-##' @title  Supplementary variables projection
-##' @description \code{supvar} is a generic function for adding supplementary variables
-##' in \code{PCAmix} or \code{MFAmix}. The function invokes invokes two methods which depend on
-##' the class of the first argument.
-##' @param obj an object of class \code{PCAmix} or \code{MFAmix}.
-##' @param \dots further arguments passed to or from other methods.
-##' @details This generic function has two methods \code{\link{supvar.PCAmix}} and 
-##' \code{\link{supvar.MFAmix}}
+#' @export
+#' @name supvar
+#' @title  Supplementary variables projection
+#' @description \code{supvar} is a generic function for adding supplementary variables
+#' in \code{PCAmix} or \code{MFAmix}. The function invokes invokes two methods which depend on
+#' the class of the first argument.
+#' @param obj an object of class \code{PCAmix} or \code{MFAmix}.
+#' @param \dots further arguments passed to or from other methods.
+#' @details This generic function has two methods \code{\link{supvar.PCAmix}} and
+#' \code{\link{supvar.MFAmix}}
+
 supvar <- function(obj,...) {
   UseMethod("supvar")
 }
 
-##' @export
-##' @name supvar.PCAmix
-##' @method supvar PCAmix
-##' @title  Supplementary variables in PCAmix
-##' @description Performs the coordinates of supplementary variables 
-##' on the component of an object of class \code{PCAmix}.
-##' @param obj an object of class \code{PCAmix}.
-##' @param X.quanti.sup a numeric matrix of data.
-##' @param X.quali.sup a categorical matrix of data.
-##' @param rename.level boolean, if TRUE all the levels of the qualitative variables 
-##' are renamed as follows: "variable_name=level_name". This prevents to have identical
-##' names of the levels.
-##' @param \dots further arguments passed to or from other methods.
-##' @seealso \code{\link{PCAmix}}
-##' @examples
-##' data(wine)
-##' X.quanti <- splitmix(wine)$X.quanti[,1:5]
-##' X.quali <- splitmix(wine)$X.quali[,1,drop=FALSE]
-##' X.quanti.sup <-splitmix(wine)$X.quanti[,28:29]
-##' X.quali.sup <-splitmix(wine)$X.quali[,2,drop=FALSE]
-##' pca<-PCAmix(X.quanti,X.quali,ndim=4,graph=FALSE)
-##' pcasup <- supvar(pca,X.quanti.sup,X.quali.sup)
+#' @export
+#' @name supvar.PCAmix
+#' @method supvar PCAmix
+#' @title  Supplementary variables in PCAmix
+#' @description Performs the coordinates of supplementary variables on the
+#'   component of an object of class \code{PCAmix}.
+#' @param obj an object of class \code{PCAmix}.
+#' @param X.quanti.sup a numeric matrix of data.
+#' @param X.quali.sup a categorical matrix of data.
+#' @param rename.level boolean, if TRUE all the levels of the qualitative
+#'   variables are renamed as follows: "variable_name=level_name". This
+#'   prevents to have identical names of the levels.
+#' @param \dots further arguments passed to or from other methods.
+#' @seealso \code{\link{PCAmix}}
+#' @examples
+#' data(wine)
+#' X.quanti <- splitmix(wine)$X.quanti[,1:5]
+#' X.quali <- splitmix(wine)$X.quali[,1,drop=FALSE]
+#' X.quanti.sup <-splitmix(wine)$X.quanti[,28:29]
+#' X.quali.sup <-splitmix(wine)$X.quali[,2,drop=FALSE]
+#' pca<-PCAmix(X.quanti,X.quali,ndim=4,graph=FALSE)
+#' pcasup <- supvar(pca,X.quanti.sup,X.quali.sup)
 
 
 supvar.PCAmix <- function(obj,X.quanti.sup=NULL,X.quali.sup=NULL,rename.level=FALSE,...)
@@ -61,9 +62,9 @@ supvar.PCAmix <- function(obj,X.quanti.sup=NULL,X.quali.sup=NULL,rename.level=FA
   if (p1!=0)
   {
     quanti.sup <- list(coord=NULL,cos2=NULL)
-    quanti.sup$coord <- A[1:p1,]
-    quanti.sup$cos2 <- B[1:p1,]
-    sqload.sup[1:p1,] <- A[1:p1,]^2
+    quanti.sup$coord <- A[1:p1,,drop=FALSE]
+    quanti.sup$cos2 <- B[1:p1,,drop=FALSE]
+    sqload.sup[1:p1,] <- A[1:p1,,drop=FALSE]^2
   }
   if (p2!=0)
   {

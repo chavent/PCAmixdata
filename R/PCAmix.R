@@ -1,4 +1,127 @@
-##' @export
+#' @importFrom stats cor sd
+NULL
+#' @importFrom utils combn
+NULL
+
+#' @export predict.PCAmix
+#' @export
+#' @name PCAmix
+#' @title Principal component analysis of mixed data 
+#' @description Performs principal component analysis of  a set of 
+#' individuals (observations) described by a mixture of qualitative and 
+#' quantitative variables. PCAmix includes ordinary principal component 
+#' analysis (PCA) and multiple correspondence analysis (MCA) as special cases.
+#' @param X.quanti a numeric matrix of data, or an object that can be 
+#' coerced to such a matrix (such as a numeric vector or a data frame with 
+#' all numeric columns).
+#' @param X.quali a categorical matrix of data, or an object that can be 
+#' coerced to such a matrix (such as a character vector, a factor or a data 
+#' frame with all factor columns).
+#' @param ndim number of dimensions kept in the results (by default 5).
+#' @param rename.level boolean, if TRUE all the levels of the qualitative 
+#' variables are renamed as follows: "variable_name=level_name". 
+#' This prevents to have identical names of the levels.
+#' @param graph boolean, if TRUE the following graphics are displayed 
+#' for the first two dimensions of PCAmix: component map of the individuals, 
+#' plot of the squared loadings of all the variables (quantitative and 
+#' qualitative), plot of the correlation circle (if  quantitative variables 
+#' are available), component map of the levels (if qualitative variables 
+#' are available).
+#' @param weight.col.quanti vector  of weights for the quantitative variables.
+#' @param weight.col.quali vector of the weights for the qualitative variables.
+#' @details If X.quali is not specified (i.e. NULL), only quantitative 
+#' variables are available and standard PCA is performed. If X.quanti 
+#' is NULL, only qualitative variables are available and standard MCA 
+#' is performed.
+#' 
+#' Missing values are replaced by means for quantitative variables
+#' and by zeros in the indicator matrix for qualitative variables.
+#' 
+#' PCAmix performs squared loadings in (\code{sqload}). Squared loadings 
+#' for a qualitative variable are correlation ratios between the variable 
+#' and the principal components. For a quantitative variable, 
+#' squared loadings are the squared correlations  between the variable 
+#' and the principal components.
+#' 
+#' Note that when all the  p variables are qualitative, the factor 
+#' coordinates (scores) of the n observations are equal to the factor 
+#' coordinates (scores) of standard MCA times square root of p and the 
+#' eigenvalues are then equal to the usual eigenvalues of MCA times p. 
+#' When all the variables are quantitative, PCAmix gives exactly the same 
+#' results as standard PCA.
+#' @return  \item{eig}{a matrix containing the eigenvalues, the percentages of variance and the cumulative percentages of variance.}
+#' \item{ind}{a list containing the results for the individuals (observations):
+#'  \itemize{
+#'     \item \code{$coord}: factor coordinates (scores) of the individuals,
+#'     \item \code{$contrib}: absolute contributions of the individuals,
+#'      \item \code{$contrib.pct}: relative contributions of the individuals,
+#'      \item \code{$cos2}: squared cosinus of the individuals.
+#'    }}
+#' \item{quanti}{a list containing the results for the quantitative variables:
+#'   \itemize{
+#'     \item \code{$coord}: factor coordinates (scores) of the quantitative variables,
+#'      \item \code{$contrib}: absolute contributions of the quantitative variables,
+#'      \item \code{$contrib.pct}: relative contributions of the quantitative variables (in percentage),
+#'     \item \code{$cos2}: squared cosinus of the quantitative variables.
+#'   }}
+#'\item{levels}{a list containing the results for the levels of the qualitative variables:
+#'    \itemize{
+#'      \item \code{$coord}: factor coordinates (scores) of the levels,
+#'      \item \code{$contrib}: absolute contributions of the levels,
+#'      \item \code{$contrib.pct}: relative contributions of the levels (in percentage),
+#'     \item \code{$cos2}: squared cosinus of the levels.
+#'   }}
+#'\item{quali}{a list containing the results for the qualitative variables:
+#'    \itemize{
+#'      \item \code{$contrib}: absolute contributions of the qualitative variables (sum of absolute contributions of the levels of the qualitative variable),
+#'      \item \code{$contrib.pct}: relative contributions (in percentage) of the qualitative variables (sum of relative contributions of the levels of the qualitative variable).
+#'    }}
+#'\item{sqload}{a matrix of dimension  (\code{p}, \code{ndim}) containing 
+#' the squared loadings of the quantitative and qualitative variables.}
+#'\item{coef}{the coefficients of the linear combinations used to 
+#' construct the principal components of PCAmix, and to predict coordinates (scores) of new observations in the function \code{\link{predict.PCAmix}}.}
+#'  \item{M}{the vector of the weights of the columns used in the Generalized Singular Value Decomposition.}
+#' @seealso \code{\link{print.PCAmix}}, \code{\link{summary.PCAmix}}, \code{\link{predict.PCAmix}}, \code{\link{plot.PCAmix}}
+#' @author Marie Chavent \email{marie.chavent@u-bordeaux.fr}, Amaury Labenne.
+#' @references 
+#' Chavent M., Kuentz-Simonet V., Labenne A., Saracco J., Multivariate analysis of mixed data: The PCAmixdata R package, arXiv:1411.4911 [stat.CO].
+#' @examples 
+#' #PCAMIX:
+#' data(wine)
+#' str(wine)
+#' X.quanti <- splitmix(wine)$X.quanti
+#' X.quali <- splitmix(wine)$X.quali
+#' pca<-PCAmix(X.quanti[,1:27],X.quali,ndim=4)
+#' pca<-PCAmix(X.quanti[,1:27],X.quali,ndim=4,graph=FALSE)
+#' pca$eig
+#' pca$ind$coord
+#' 
+#' #PCA:
+#' data(decathlon)
+#' quali<-decathlon[,13]
+#' pca<-PCAmix(decathlon[,1:10])
+#' pca<-PCAmix(decathlon[,1:10], graph=FALSE)
+#' plot(pca,choice="ind",coloring.ind=quali,cex=0.8,
+#'      posleg="topright",main="Scores")
+#' plot(pca, choice="sqload",main="Squared correlations")
+#' plot(pca, choice="cor",main="Correlation circle")
+#' pca$quanti$coord
+#' 
+#' #MCA
+#' data(flower)
+#' mca <- PCAmix(X.quali=flower[,1:4],rename.level=TRUE)
+#' mca <- PCAmix(X.quali=flower[,1:4],rename.level=TRUE,graph=FALSE)
+#' plot(mca,choice="ind",main="Scores")
+#' plot(mca,choice="sqload",main="Correlation ratios")
+#' plot(mca,choice="levels",main="Levels")
+#' mca$levels$coord
+#' 
+#' #Missing values
+#' data(vnf)
+#' PCAmix(X.quali=vnf,rename.level=TRUE)
+#' vnf2<-na.omit(vnf)
+#' PCAmix(X.quali=vnf2,rename.level=TRUE)
+
 PCAmix<- function (X.quanti=NULL,X.quali=NULL,ndim=5,rename.level=FALSE,
                    weight.col.quanti=NULL,weight.col.quali=NULL,graph=TRUE)
 {

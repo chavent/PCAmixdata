@@ -1,4 +1,4 @@
-##' @export
+#' @export
 PCArot<-function(obj,dim,itermax=100,graph=TRUE)
 {
   cl <- match.call()

@@ -1,4 +1,4 @@
-##' @export
+#' @export
 MFAmix<-function(data, groups, name.groups, ndim=5, rename.level=FALSE, 
                  graph=TRUE, axes=c(1,2))
 {
@@ -119,7 +119,7 @@ MFAmix<-function(data, groups, name.groups, ndim=5, rename.level=FALSE,
   for (i in 1:ngroup)
   {
     A <-res.separate.pcamix[[i]]$scores
-    partial.axes[[i]] <- cor(A,B)
+    partial.axes[[i]] <- stats::cor(A,B)
     rownames( partial.axes[[i]]) <- paste(colnames(A),name.groups[i],sep=".")
   }
   names(partial.axes) <- name.groups
@@ -170,8 +170,8 @@ MFAmix<-function(data, groups, name.groups, ndim=5, rename.level=FALSE,
   )
   
   
-  class(res)<-c("MFAmix","list")
-  #class(res)<-c("MFAmix")
+  #class(res)<-c("MFAmix","list")
+  class(res)<-c("MFAmix")
   
   if (graph) {  
       plot.MFAmix(res,axes=axes,choice="axes",coloring.var="groups")

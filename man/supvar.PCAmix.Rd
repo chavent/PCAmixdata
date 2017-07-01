@@ -14,15 +14,15 @@
 
 \item{X.quali.sup}{a categorical matrix of data.}
 
-\item{rename.level}{boolean, if TRUE all the levels of the qualitative variables 
-are renamed as follows: "variable_name=level_name". This prevents to have identical
-names of the levels.}
+\item{rename.level}{boolean, if TRUE all the levels of the qualitative
+variables are renamed as follows: "variable_name=level_name". This
+prevents to have identical names of the levels.}
 
 \item{\dots}{further arguments passed to or from other methods.}
 }
 \description{
-Performs the coordinates of supplementary variables 
-on the component of an object of class \code{PCAmix}.
+Performs the coordinates of supplementary variables on the
+  component of an object of class \code{PCAmix}.
 }
 \examples{
 data(wine)

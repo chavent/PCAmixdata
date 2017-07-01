@@ -1,9 +1,100 @@
-##' @export
 ##' @method plot PCAmix
+#' @export
+#' @name plot.PCAmix
+#' @title  Graphical outputs of PCAmix and PCArot
+#' @description Displays the graphical outputs of PCAmix and PCArot. 
+#' The individuals (observations), the quantitative variables and the levels 
+#' of the qualitative variables are plotted as points using their factor 
+#' coordinates (scores). All the variables (quantitative and qualitative)
+#'  are plotted as points on the same graph using their squared loadings.
+#' @param x an object of class PCAmix obtained with the function \code{PCAmix} or \code{PCArot}.
+#' @param axes a length 2 vector specifying the components to plot.
+#' @param choice the graph to plot: 
+#' \itemize{
+#' \item "ind" for the individuals component map,
+#'  \item "cor" for the correlation circle if quantitative variables are available in the data,
+#'  \item "levels" for the levels components map (if qualitative variables are available in the data),
+#'  \item "sqload" for the plot of the squared loadings of all the variables.
+#'  }
+#' @param label boolean, if FALSE the labels of the points are not plotted.
+#' @param coloring.ind a qualitative variable such as a character vector 
+#' or a factor of size n (the number of individuals). The individuals 
+#' are colored according to the levels of this variable. If NULL, the 
+#' individuals are not colored.
+#' @param col.ind a vector of colors, of size the number of levels of 
+#' \code{coloring.ind}. If NULL, colors are chosen automatically.
+#' @param coloring.var boolean, if TRUE, the variables in the plot of the squared loadings 
+#' are colored according to their type (quantitative or qualitative).
+#' @param lim.cos2.plot a value between 0 and 1. Points with squared 
+#' cosinus below this value are not plotted.
+#' @param lim.contrib.plot a value between 0 and 100. Points with relative contributions
+#' (in percentage) below this value  are not plotted.
+#' @param posleg position of the legend.
+#' @param xlim a numeric vectors of length 2, giving the x coordinates range. If NULL (by default) 
+#' the range is defined automatically (recommended). 
+#' @param ylim a numeric vectors of length 2, giving the y coordinates range. 
+#' If NULL (by default) the range is defined automatically (recommended).
+#' @param main a string corresponding to the title of the graph to draw.
+#' @param cex cf. function \code{par} in the \bold{graphics} package
+#' @param leg boolean, if TRUE, a legend is displayed.
+#' @param cex.leg a numerical value giving the amount by which the legend should be magnified. Default is 0.8.
+#' @param \ldots arguments to be passed to methods, such as graphical parameters.
+#' @seealso \code{\link{summary.PCAmix}},\code{\link{PCAmix}},\code{\link{PCArot}}
+#' @author Marie Chavent \email{marie.chavent@u-bordeaux.fr}, Amaury Labenne
+#' @details The observations can be colored according to the levels of a qualitative 
+#' variable. The observations, the quantitative variables and the levels can be selected 
+#' according to their squared cosine (lim.cos2.plot) or their relative contribution 
+#' (lim.contrib.plot) to the component map. Only points with squared cosine or relative 
+#' contribution greater than a given threshold are plotted. Note that the relative 
+#' contribution of a point to the component map (a plan) is the sum of the absolute 
+#' contributions to each dimension, divided by the sum of the corresponding eigenvalues.
+#' @references 
+#' Chavent M., Kuentz-Simonet V., Labenne A., Saracco J., Multivariate analysis of mixed data: The PCAmixdata R package, arXiv:1411.4911 [stat.CO].
+#' @examples
+#' data(gironde)
+#' base <- gironde$housing[1:20,]
+#' X.quanti <-splitmix(base)$X.quanti
+#' X.quali <- splitmix(base)$X.quali
+#' res<-PCAmix(X.quanti, X.quali, rename.level=TRUE, ndim=3,graph=FALSE)
+#' 
+#' #----quantitative variables on the correlation circle
+#' plot(res,choice="cor",cex=0.8)
+#' 
+#' #----individuals component map
+#' plot(res,choice="ind",cex=0.8)
+#' 
+#' #----individuals colored with the qualitative variable "houses"
+#' houses <- X.quali$houses
+#' plot(res,choice="ind",cex=0.6,coloring.ind=houses) 
+#' 
+#' #----individuals selected according to their cos2
+#' plot(res,choice="ind",cex=0.6,lim.cos2.plot=0.8)
+
+#'#----all the variables plotted with the squared loadings
+#' plot(res,choice="sqload",cex=0.8)
+#' 
+#' #----variables colored according to their type (quanti or quali)
+#' plot(res,choice="sqload",cex=0.8,coloring.var=TRUE) 
+#' 
+#' #----levels component map
+#' plot(res,choice="levels",cex=0.8)
+#' 
+#' #----example with supplementary variables
+#' data(wine)
+#' X.quanti <- splitmix(wine)$X.quanti[,1:5]
+#' X.quali <- splitmix(wine)$X.quali[,1,drop=FALSE]
+#' X.quanti.sup <-splitmix(wine)$X.quanti[,28:29]
+#' X.quali.sup <-splitmix(wine)$X.quali[,2,drop=FALSE]
+#' pca<-PCAmix(X.quanti,X.quali,ndim=4,graph=FALSE)
+#' pca2 <- supvar(pca,X.quanti.sup,X.quali.sup)
+#' plot(pca2,choice="levels")
+#' plot(pca2,choice="cor")
+#' plot(pca2,choice="sqload")
+#' 
 plot.PCAmix <- function(x,axes = c(1, 2), choice = "ind",label=TRUE,
                         coloring.ind=NULL,col.ind=NULL, coloring.var=FALSE,
                         lim.cos2.plot=0,lim.contrib.plot=0, posleg="topleft",
-                        xlim=NULL,ylim=NULL, cex=1,leg=TRUE,main=NULL,cex.leg=1, ...)
+                        xlim=NULL,ylim=NULL, cex=1,leg=TRUE,main=NULL,cex.leg=1,...)
 {
   cl<-match.call()
   if (!inherits(x, "PCAmix")) 
@@ -122,20 +213,20 @@ plot.PCAmix <- function(x,axes = c(1, 2), choice = "ind",label=TRUE,
     coord.ind<-coord.ind[select.ind, , drop=FALSE]
     col.plot.ind<-col.plot.ind[select.ind]
     
-    plot(coord.ind[, axes], xlim = xlim, ylim = ylim, xlab = lab.x, 
+    graphics::plot(coord.ind[, axes], xlim = xlim, ylim = ylim, xlab = lab.x, 
          ylab = lab.y, pch = 20, col = as.character(col.plot.ind), 
          cex = cex, main=main, ...)
-    abline(h = 0, lty = 2, cex = cex)
-    abline(v = 0, lty = 2, cex = cex)
+    graphics::abline(h = 0, lty = 2, cex = cex)
+    graphics::abline(v = 0, lty = 2, cex = cex)
     
     if(length(select.ind)!=0)
     {
       if(leg==TRUE & is.factor(coloring.ind))
-        legend(posleg, legend =paste(cl["coloring.ind"],levels(coloring.ind),sep="="), text.col = levels(as.factor(col.plot.ind.total)), 
+        graphics::legend(posleg, legend =paste(cl["coloring.ind"],levels(coloring.ind),sep="="), text.col = levels(as.factor(col.plot.ind.total)), 
                cex =cex.leg)
       
       if (label) 
-        text(coord.ind[, axes], labels = rownames(coord.ind), 
+        graphics::text(coord.ind[, axes], labels = rownames(coord.ind), 
              pos = 3, col = as.character(col.plot.ind), cex = cex, 
              ...)
     }
@@ -150,17 +241,17 @@ plot.PCAmix <- function(x,axes = c(1, 2), choice = "ind",label=TRUE,
     ymax <- max(res.pca$sqload[, dim2],res.pca$sqload.sup[, dim2],ylim)
     ylim <- c(-0.1, ymax * 1.2)
     
-    plot(0, 0, type = "n", xlab = lab.x, ylab = lab.y, xlim = xlim, 
+    graphics::plot(0, 0, type = "n", xlab = lab.x, ylab = lab.y, xlim = xlim, 
          ylim = ylim, cex = cex,main=main,...)
-    abline(v = 0, lty = 2, cex = cex)
-    abline(h = 0, lty = 2, cex = cex)
+    graphics::abline(v = 0, lty = 2, cex = cex)
+    graphics::abline(h = 0, lty = 2, cex = cex)
     
     
     if (!(coloring.var))
     {
       for (j in 1:nrow(res.pca$sqload)) 
       {
-        arrows(0, 0, res.pca$sqload[j, dim1], res.pca$sqload[j, dim2], 
+        graphics::arrows(0, 0, res.pca$sqload[j, dim1], res.pca$sqload[j, dim2], 
                length = 0.1, angle = 15, code = 2, cex = cex,...)
         if (label) 
         {
@@ -169,7 +260,7 @@ plot.PCAmix <- function(x,axes = c(1, 2), choice = "ind",label=TRUE,
             pos <- 4
           }
           else pos <- 3
-          text(res.pca$sqload[j, dim1], res.pca$sqload[j, dim2], labels = rownames(res.pca$sqload)[j], 
+          graphics::text(res.pca$sqload[j, dim1], res.pca$sqload[j, dim2], labels = rownames(res.pca$sqload)[j], 
                pos = pos, cex = cex,...)
         }
       }
@@ -177,28 +268,27 @@ plot.PCAmix <- function(x,axes = c(1, 2), choice = "ind",label=TRUE,
       for (j in 1:nrow(res.pca$sqload)) 
       {
         col.sq<-rep(c("black","red"),c(p1,p2))
-        arrows(0, 0, res.pca$sqload[j, dim1], res.pca$sqload[j, dim2], 
-               length = 0.1, angle = 15, code = 2, cex = cex, col=col.sq[j], 
-               ...)
+        graphics::arrows(0, 0, res.pca$sqload[j, dim1], res.pca$sqload[j, dim2], 
+               length = 0.1, angle = 15, code = 2, cex = cex, col=col.sq[j],...)
         if (label) 
         {
           if (res.pca$sqload[j, dim1] > res.pca$sqload[j, dim2]) {
             pos <- 4
           }
           else pos <- 3
-          text(res.pca$sqload[j, dim1], res.pca$sqload[j, dim2], labels = rownames(res.pca$sqload)[j], 
+          graphics::text(res.pca$sqload[j, dim1], res.pca$sqload[j, dim2], labels = rownames(res.pca$sqload)[j], 
                pos = pos, cex = cex, col=col.sq[j], ...)
         }
       }
       if (leg==TRUE)
-        legend(posleg, legend = c("numerical","categorical"), text.col = c("black","red"), 
+        graphics::legend(posleg, legend = c("numerical","categorical"), text.col = c("black","red"), 
                cex = cex.leg)
     }
     if (sup)
     {
       for (j in 1:nrow(res.pca$sqload.sup)) 
       {
-        arrows(0, 0, res.pca$sqload.sup[j, dim1], res.pca$sqload.sup[j, dim2], 
+        graphics::arrows(0, 0, res.pca$sqload.sup[j, dim1], res.pca$sqload.sup[j, dim2], 
                length = 0.1, angle = 15, code = 2, lty=5, col="blue",cex = cex,...)
         if (label) 
         {
@@ -206,7 +296,7 @@ plot.PCAmix <- function(x,axes = c(1, 2), choice = "ind",label=TRUE,
           {
             pos <- 4
           } else pos <- 3
-          text(res.pca$sqload.sup[j, dim1], res.pca$sqload.sup[j, dim2], labels = rownames(res.pca$sqload.sup)[j], 
+          graphics::text(res.pca$sqload.sup[j, dim1], res.pca$sqload.sup[j, dim2], labels = rownames(res.pca$sqload.sup)[j], 
                pos = pos, cex = cex,col="blue",...)
         }
       }
@@ -225,10 +315,10 @@ plot.PCAmix <- function(x,axes = c(1, 2), choice = "ind",label=TRUE,
     ymax <- max(ylim,res.pca$levels$coord[, dim2],res.pca$levels.sup$coord[, dim2])
     ylim <- c(ymin, ymax) * 1.2
     
-    plot(0,0, xlim = xlim, ylim = ylim,
+    graphics::plot(0,0, xlim = xlim, ylim = ylim,
          xlab = lab.x, ylab = lab.y, type="n", cex = cex,main=main, ...)
-    abline(h = 0, lty = 2, cex = cex)
-    abline(v = 0, lty = 2, cex = cex)
+    graphics::abline(h = 0, lty = 2, cex = cex)
+    graphics::abline(v = 0, lty = 2, cex = cex)
     
     #plot levels of active variables
     if (!is.null(res.pca$levels))
@@ -259,7 +349,7 @@ plot.PCAmix <- function(x,axes = c(1, 2), choice = "ind",label=TRUE,
       {
         if (sum(base.lim[v, ], na.rm = TRUE) >= lim.plot && !is.na(sum(base.lim[v, ], na.rm = TRUE))) {
           test.empty.plot<-c(test.empty.plot,1)
-          points(coord.lev[v, 1], coord.lev[v,2], pch=20,cex = cex,...)
+          graphics::points(coord.lev[v, 1], coord.lev[v,2], pch=20,cex = cex,...)
           
           if (label) 
           {
@@ -274,7 +364,7 @@ plot.PCAmix <- function(x,axes = c(1, 2), choice = "ind",label=TRUE,
                 pos <- 3
               else pos <- 1
             }
-            text(coord.lev[v, 1], y = coord.lev[v, 2], 
+            graphics::text(coord.lev[v, 1], y = coord.lev[v, 2], 
                  labels = rownames(coord.lev)[v], pos = pos, cex = cex)
           }
         }
@@ -291,7 +381,7 @@ plot.PCAmix <- function(x,axes = c(1, 2), choice = "ind",label=TRUE,
       for (v in 1:nrow(coord.lev.sup)) 
       {
         
-        points(coord.lev.sup[v, 1], coord.lev.sup[v,2], pch=18,cex = cex,
+        graphics::points(coord.lev.sup[v, 1], coord.lev.sup[v,2], pch=18,cex = cex,
                col="blue",...)
         
         if (label) 
@@ -307,7 +397,7 @@ plot.PCAmix <- function(x,axes = c(1, 2), choice = "ind",label=TRUE,
               pos <- 3
             else pos <- 1
           }
-          text(coord.lev.sup[v, 1], y = coord.lev.sup[v, 2], 
+          graphics::text(coord.lev.sup[v, 1], y = coord.lev.sup[v, 2], 
                labels = rownames(coord.lev.sup)[v], pos = pos, 
                col="blue", cex = cex)
         }
@@ -321,15 +411,15 @@ plot.PCAmix <- function(x,axes = c(1, 2), choice = "ind",label=TRUE,
     if (is.null(xlim)) xlim = c(-1.1, 1.1)
     if (is.null(ylim)) ylim = c(-1.1, 1.1)
     
-    plot(0, 0, main = main, xlab = lab.x, ylab = lab.y, 
+    graphics::plot(0, 0, main = main, xlab = lab.x, ylab = lab.y, 
          xlim = xlim, ylim = ylim, col = "white", 
          asp = 1, cex = cex,...)
     x.cercle <- seq(-1, 1, by = 0.01)
     y.cercle <- sqrt(1 - x.cercle^2)
-    lines(x.cercle, y = y.cercle)
-    lines(x.cercle, y = -y.cercle)
-    abline(v = 0, lty = 2, cex = cex)
-    abline(h = 0, lty = 2, cex = cex)
+    graphics::lines(x.cercle, y = y.cercle)
+    graphics::lines(x.cercle, y = -y.cercle)
+    graphics::abline(v = 0, lty = 2, cex = cex)
+    graphics::abline(h = 0, lty = 2, cex = cex)
     
     #plot active quantitative variables
     if (!is.null(res.pca$quanti))
@@ -359,7 +449,7 @@ plot.PCAmix <- function(x,axes = c(1, 2), choice = "ind",label=TRUE,
       {
         if (sum(base.lim[v, ] , na.rm = TRUE) >= lim.plot && !is.na(sum(base.lim[v, ], na.rm = TRUE))) {
           test.empty.plot<-c(test.empty.plot,1)
-          arrows(0, 0, coord.var[v, 1], coord.var[v,2], length = 0.1, angle = 15, code = 2,cex = cex)
+          graphics::arrows(0, 0, coord.var[v, 1], coord.var[v,2], length = 0.1, angle = 15, code = 2,cex = cex)
           
           if (label) 
           {
@@ -374,7 +464,7 @@ plot.PCAmix <- function(x,axes = c(1, 2), choice = "ind",label=TRUE,
                 pos <- 3
               else pos <- 1
             }
-            text(coord.var[v, 1], y = coord.var[v, 2], 
+            graphics::text(coord.var[v, 1], y = coord.var[v, 2], 
                  labels = rownames(coord.var)[v], pos = pos, cex = cex)
           }
         }
@@ -388,7 +478,7 @@ plot.PCAmix <- function(x,axes = c(1, 2), choice = "ind",label=TRUE,
       coord.var.sup <- res.pca$quanti.sup$coord[, axes, drop = FALSE]
       for (v in 1:nrow(coord.var.sup)) 
       {
-        arrows(0, 0, coord.var.sup[v, 1], coord.var.sup[v,2], length = 0.1, 
+        graphics::arrows(0, 0, coord.var.sup[v, 1], coord.var.sup[v,2], length = 0.1, 
                angle = 15, code = 2,cex = cex,col="blue",lty=5)
         
         if (label) 
@@ -404,7 +494,7 @@ plot.PCAmix <- function(x,axes = c(1, 2), choice = "ind",label=TRUE,
               pos <- 3
             else pos <- 1
           }
-          text(coord.var.sup[v, 1], y = coord.var.sup[v, 2], 
+          graphics::text(coord.var.sup[v, 1], y = coord.var.sup[v, 2], 
                labels = rownames(coord.var.sup)[v], pos = pos, cex = cex,col="blue")
         }
       }

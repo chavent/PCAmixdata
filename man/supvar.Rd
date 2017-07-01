@@ -17,7 +17,7 @@ in \code{PCAmix} or \code{MFAmix}. The function invokes invokes two methods whic
 the class of the first argument.
 }
 \details{
-This generic function has two methods \code{\link{supvar.PCAmix}} and 
+This generic function has two methods \code{\link{supvar.PCAmix}} and
 \code{\link{supvar.MFAmix}}
 }
 

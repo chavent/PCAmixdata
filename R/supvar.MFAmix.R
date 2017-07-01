@@ -1,32 +1,32 @@
-##' @export 
-##' @name supvar.MFAmix
-##' @method supvar MFAmix
-##' @title  Supplementary variables in MFAmix
-##' @description Performs the coordinates of supplementary variables and groups on the component of an object of class \code{MFAmix}.
-##' @param obj an object of class \code{MFAmix}.
-##' @param data.sup a numeric matrix of data.
-##' @param groups.sup a vector which gives the groups of the columns in \code{data.sup}.
-##' @param name.groups.sup a vector which gives the names of the supplementary groups.
-##' @param rename.level boolean, if TRUE all the levels of the qualitative variables 
-##' are renamed as follows: "variable_name=level_name". This prevents to have identical
-##' names of the levels.
-##' @param \dots further arguments passed to or from other methods.
-##' @examples
-##' data(wine)
-##' X.quanti <- splitmix(wine)$X.quanti[,1:5]
-##' X.quali <- splitmix(wine)$X.quali[,1,drop=FALSE]
-##' X.quanti.sup <- splitmix(wine)$X.quanti[,28:29]
-##' X.quali.sup <- splitmix(wine)$X.quali[,2,drop=FALSE]
-##' data <- cbind(X.quanti,X.quali)
-##' data.sup <- cbind(X.quanti.sup,X.quali.sup)
-##' groups <-c(1,2,2,3,3,1)
-##' name.groups <- c("G1","G2","G3") 
-##' groups.sup <- c(1,1,2)
-##' name.groups.sup <- c("Gsup1","Gsup2")
-##' mfa <- MFAmix(data,groups,name.groups,ndim=4,rename.level=TRUE,graph=FALSE)
-##' mfa.sup <- supvar(mfa,data.sup,groups.sup,name.groups.sup,rename.level=TRUE)
-##'
-##'  
+#' @export
+#' @name supvar.MFAmix
+#' @method supvar MFAmix
+#' @title  Supplementary variables in MFAmix
+#' @description Performs the coordinates of supplementary variables and groups on the component of an object of class \code{MFAmix}.
+#' @param obj an object of class \code{MFAmix}.
+#' @param data.sup a numeric matrix of data.
+#' @param groups.sup a vector which gives the groups of the columns in \code{data.sup}.
+#' @param name.groups.sup a vector which gives the names of the supplementary groups.
+#' @param rename.level boolean, if TRUE all the levels of the qualitative variables
+#' are renamed as follows: "variable_name=level_name". This prevents to have identical
+#' names of the levels.
+#' @param \dots further arguments passed to or from other methods.
+#' @examples
+#' data(wine)
+#' X.quanti <- splitmix(wine)$X.quanti[,1:5]
+#' X.quali <- splitmix(wine)$X.quali[,1,drop=FALSE]
+#' X.quanti.sup <- splitmix(wine)$X.quanti[,28:29]
+#' X.quali.sup <- splitmix(wine)$X.quali[,2,drop=FALSE]
+#' data <- cbind(X.quanti,X.quali)
+#' data.sup <- cbind(X.quanti.sup,X.quali.sup)
+#' groups <-c(1,2,2,3,3,1)
+#' name.groups <- c("G1","G2","G3")
+#' groups.sup <- c(1,1,2)
+#' name.groups.sup <- c("Gsup1","Gsup2")
+#' mfa <- MFAmix(data,groups,name.groups,ndim=4,rename.level=TRUE,graph=FALSE)
+#' mfa.sup <- supvar(mfa,data.sup,groups.sup,name.groups.sup,rename.level=TRUE)
+#'
+#'
 supvar.MFAmix <- function(obj, data.sup, groups.sup, name.groups.sup,rename.level=FALSE,...)
 {
   

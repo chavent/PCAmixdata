@@ -8,5 +8,7 @@ Author: Marie Chavent and Vanessa Kuentz and Amaury Labenne and Benoit Liquet
 Maintainer: Marie Chavent <marie.chavent@u-bordeaux.fr>
 Description: Principal Component Analysis, orthogonal rotation and multiple
     factor analysis for a mixture of quantitative and qualitative variables.
+Imports: 
+  graphics
 License: GPL (>=2.0)
 RoxygenNote: 5.0.1
