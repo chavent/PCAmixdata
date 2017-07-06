@@ -1,4 +1,4 @@
-##' @export
+#' @export
 RV.pond<-function(liste.mat,ponde){
   Lg<-Lg.pond(liste.mat,ponde)
   RV<-matrix(NA,ncol=ncol(Lg),nrow=nrow(Lg))

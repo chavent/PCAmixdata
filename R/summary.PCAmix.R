@@ -1,5 +1,5 @@
-##' @export
-##' @method summary PCAmix
+#' @export
+#' @method summary PCAmix
 summary.PCAmix <-
   function(object, ...)
   {

@@ -1,6 +1,5 @@
-##' @export
+#' @export
 splitmix<-function(data){
-  type<-NULL
   data<-data.frame(data,check.names=T)
   class.col <- unlist(lapply(data,class))
   col.quant <- which(class.col %in% c("numeric","integer"))

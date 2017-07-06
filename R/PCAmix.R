@@ -2,8 +2,6 @@
 NULL
 #' @importFrom utils combn
 NULL
-
-#' @export predict.PCAmix
 #' @export
 #' @name PCAmix
 #' @title Principal component analysis of mixed data 

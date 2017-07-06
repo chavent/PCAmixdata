@@ -1,4 +1,4 @@
-##' @export
+#' @export
 recodquant <-
   function(X)
   {

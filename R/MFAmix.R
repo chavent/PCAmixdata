@@ -170,8 +170,8 @@ MFAmix<-function(data, groups, name.groups, ndim=5, rename.level=FALSE,
   )
   
   
-  #class(res)<-c("MFAmix","list")
-  class(res)<-c("MFAmix")
+  class(res)<-c("MFAmix","list")
+  #class(res)<-c("MFAmix")
   
   if (graph) {  
       plot.MFAmix(res,axes=axes,choice="axes",coloring.var="groups")

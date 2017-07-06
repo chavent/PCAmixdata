@@ -1,4 +1,4 @@
-##' @export
+#' @export
 recodqual <-
 function(X,rename.level=FALSE)
 	{

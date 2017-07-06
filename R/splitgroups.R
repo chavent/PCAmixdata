@@ -1,4 +1,4 @@
-##' @export
+#' @export
 splitgroups<-function(data,groups,name.groups){
   num.group <- sort(unique(groups))
   if (length(name.groups) != length(num.group))

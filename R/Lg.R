@@ -1,5 +1,6 @@
-##' @export
-
+#' @export
+#' @keywords internal
+#' 
 Lg<-function(liste.mat){
   n<-nrow(liste.mat[[1]])
   nbr.mat<-length(liste.mat)

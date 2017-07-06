@@ -1,4 +1,4 @@
-##' @export
+#' @export
 recod <-
   function(X.quanti,X.quali,rename.level=FALSE)
   {
