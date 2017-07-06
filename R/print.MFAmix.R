@@ -1,5 +1,5 @@
+#' @export print.MFAmix
 #' @export
-#' @method print MFAmix
 print.MFAmix<-function (x, ...) 
 {
   res.mfa <- x

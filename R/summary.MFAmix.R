@@ -1,5 +1,5 @@
+#' @export summary.MFAmix
 #' @export
-#' @method summary MFAmix
 summary.MFAmix <-function(object, ...){
   x <- object
   if (!inherits(x, "MFAmix")) 

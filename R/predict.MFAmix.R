@@ -1,3 +1,4 @@
+#' @export predict.MFAmix
 #' @export
 #' @name predict.MFAmix
 #' @title  Prediction of new scores in MFAmix

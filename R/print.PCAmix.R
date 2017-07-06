@@ -1,5 +1,5 @@
+#' @export print.PCAmix
 #' @export
-#' @method print PCAmix
 print.PCAmix <- function(x, ...){
   if (!inherits(x, "PCAmix")) 
     stop("use only with \"PCAmix\" objects")

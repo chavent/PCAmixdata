@@ -1,5 +1,5 @@
+#' @export plot.MFAmix
 #' @export
-#' @name plot.MFAmix
 #' @title  Graphical outputs of MFAmix
 #' @description Displays the graphical outputs of MFAmix. 
 #' Individuals (observations), quantitative variables and 

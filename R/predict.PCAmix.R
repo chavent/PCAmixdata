@@ -1,4 +1,4 @@
-#' @export predict.MFAmix
+#' @export predict.PCAmix
 #' @export
 #' @name predict.PCAmix
 #' @title  Prediction of new scores in PCAmix or PCArot
