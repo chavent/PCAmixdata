@@ -2,7 +2,7 @@
 PCArot<-function(obj,dim,itermax=100,graph=TRUE)
 {
   cl <- match.call()
-  if (!inherits(obj, "PCAmix")) 
+  if (!inherits(obj, c("PCAmix"))) 
     stop("use only with \"PCAmix\" objects")
   if (dim <= 1) stop("'dim' must be an interger greater or equal to 2",call. = FALSE)
   if (dim > ncol(obj$A)) stop("'dim' must be an integer smaller or equal to 'ndim' specified in 'PCAmix'",call. = FALSE)

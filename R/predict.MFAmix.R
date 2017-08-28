@@ -54,37 +54,14 @@ predict.MFAmix<-function (object, data, rename.level=FALSE,...)
   mfa <- object
   if (!inherits(mfa, "MFAmix")) 
     stop("use only with \"MFAmix\" objects")
-  
-#   if (length(groups)!=ncol(data))
-#     stop("\"groups\" must be a vector of size the number of variables in \"data\"",call.=FALSE)
-#   
   if (mfa$rename.level) 
     rename.level=TRUE
   if ((rename.level) & (!mfa$rename.level))
     stop("perform MFAmix with argument rename.level=TRUE",call.=FALSE)
-  
-#  n <-nrow(data)
-#   ngroup <-length(unique(groups))
-#   if (length(name.groups)!=ngroup)
-#     stop("Invalid length of \"name.groups\"",call.=FALSE)
-#   
-#   data.groups <- splitgroups(data=data,groups=groups,name.groups=name.groups)$data.groups 
-#   listvar.group <- splitgroups(data=data,groups=groups,name.groups=name.groups)$listvar.groups
-#   size.groups<-unlist(lapply(data.groups,ncol)) #number of variables in each group
-#   
-#   #reorder the data matrix by block 
-#   data.ord <- data.groups[[1]]
-#   for(g in 2:ngroup)
-#   {
-#     data.ord <- cbind(data.ord, data.groups[[g]])
-#   }
-#   #from now we use these data
-#   groups<-rep(1:ngroup,size.groups)
-#   data<-data.ord
-#   
+  if ((nrow(data)==1) && stats::complete.cases(data)==FALSE)
+      stop("a single observation with missing values with can't be predicted",call. = FALSE)
   X.quanti<-splitmix(data)$X.quanti
   X.quali<-splitmix(data)$X.quali
-  
   rec <- recod(X.quanti, X.quali,rename.level=rename.level)
   Y <- rec$Y
   n <- rec$n

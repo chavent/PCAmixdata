@@ -11,12 +11,22 @@ recodquant <-
         }
         return(C1)
       }
-    Xcod <- apply(X,2,missing.mean)
-    red <- sqrt((nrow(X)-1)/nrow(X))
-    sd.Xcod <- apply(Xcod,2,sd)*red
-    mean.Xcod <- apply(Xcod,2,mean)
-    Z<- scale(Xcod,scale=sd.Xcod) 
-    apply(Z,1,function(x) sum(is.na(x))) 
-    if (sum(is.na(Z))!= 0) stop("There are columns in X.quanti where all the values are identical",call.=FALSE)
+    if (nrow(X)==1) 
+    {
+      Xcod <- X
+      Z <- NULL
+      mean.Xcod <- X
+      sd.Xcod <- NULL
+    }
+    else
+    {
+      Xcod <- apply(X,2,missing.mean)
+      red <- sqrt((nrow(X)-1)/nrow(X))
+      sd.Xcod <- apply(Xcod,2,sd)*red
+      mean.Xcod <- apply(Xcod,2,mean)
+      Z<- scale(Xcod,scale=sd.Xcod) 
+      apply(Z,1,function(x) sum(is.na(x))) 
+      if (sum(is.na(Z))!= 0) stop("There are columns in X.quanti where all the values are identical",call.=FALSE)
+    }
     return(list(Z=Z,g=mean.Xcod,s=sd.Xcod,Xcod=Xcod))
   }

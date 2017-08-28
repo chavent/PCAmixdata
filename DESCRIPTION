@@ -19,4 +19,9 @@ Description: Principal Component Analysis, orthogonal rotation and multiple
 Imports:
     graphics
 License: GPL (>=2.0)
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
+Suggests:
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+

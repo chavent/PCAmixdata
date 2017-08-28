@@ -42,4 +42,3 @@ mfa.sup <- supvar(mfa,data.sup,groups.sup,name.groups.sup,rename.level=TRUE)
 
 
 }
-

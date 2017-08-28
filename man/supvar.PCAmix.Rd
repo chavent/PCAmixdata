@@ -36,4 +36,3 @@ pcasup <- supvar(pca,X.quanti.sup,X.quali.sup)
 \seealso{
 \code{\link{PCAmix}}
 }
-

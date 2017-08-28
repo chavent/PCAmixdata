@@ -117,13 +117,12 @@ plot(pca2,choice="cor")
 plot(pca2,choice="sqload")
 
 }
-\author{
-Marie Chavent \email{marie.chavent@u-bordeaux.fr}, Amaury Labenne
-}
 \references{
 Chavent M., Kuentz-Simonet V., Labenne A., Saracco J., Multivariate analysis of mixed data: The PCAmixdata R package, arXiv:1411.4911 [stat.CO].
 }
 \seealso{
 \code{\link{summary.PCAmix}},\code{\link{PCAmix}},\code{\link{PCArot}}
 }
-
+\author{
+Marie Chavent \email{marie.chavent@u-bordeaux.fr}, Amaury Labenne
+}

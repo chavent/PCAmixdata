@@ -55,9 +55,6 @@ points(pred[1:5,c(1,2)],col=2,pch=16,cex=0.6)
 text(pred[1:5,c(1,2)], labels = rownames(dat[-sub,])[1:5],
      col=2,pos=3,cex=0.6)
 }
-\author{
-Marie Chavent \email{marie.chavent@u-bordeaux.fr}, Amaury Labenne.
-}
 \references{
 Chavent M., Kuentz-Simonet V., Labenne A., Saracco J.,
 Multivariate analysis of mixed data: The PCAmixdata R package, 
@@ -66,4 +63,6 @@ arXiv:1411.4911 [stat.CO].
 \seealso{
 \code{\link{MFAmix}}
 }
-
+\author{
+Marie Chavent \email{marie.chavent@u-bordeaux.fr}, Amaury Labenne.
+}

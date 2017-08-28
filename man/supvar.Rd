@@ -20,4 +20,3 @@ the class of the first argument.
 This generic function has two methods \code{\link{supvar.PCAmix}} and
 \code{\link{supvar.MFAmix}}
 }
-

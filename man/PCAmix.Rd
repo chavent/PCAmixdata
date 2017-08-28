@@ -132,13 +132,12 @@ PCAmix(X.quali=vnf,rename.level=TRUE)
 vnf2<-na.omit(vnf)
 PCAmix(X.quali=vnf2,rename.level=TRUE)
 }
-\author{
-Marie Chavent \email{marie.chavent@u-bordeaux.fr}, Amaury Labenne.
-}
 \references{
 Chavent M., Kuentz-Simonet V., Labenne A., Saracco J., Multivariate analysis of mixed data: The PCAmixdata R package, arXiv:1411.4911 [stat.CO].
 }
 \seealso{
 \code{\link{print.PCAmix}}, \code{\link{summary.PCAmix}}, \code{\link{predict.PCAmix}}, \code{\link{plot.PCAmix}}
 }
-
+\author{
+Marie Chavent \email{marie.chavent@u-bordeaux.fr}, Amaury Labenne.
+}

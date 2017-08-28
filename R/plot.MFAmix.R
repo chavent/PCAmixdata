@@ -158,7 +158,7 @@
 #' plot(mfa.sup,choice="levels")
 #' plot(mfa.sup,choice="cor",coloring.var = "groups")
 #' 
-plot.MFAmix <- function(x, axes = c(1, 2), choice = "axes", label=TRUE, coloring.var = "not", coloring.ind=NULL, nb.partial.axes=3,
+plot.MFAmix <- function(x, axes = c(1, 2), choice = "ind", label=TRUE, coloring.var = "not", coloring.ind=NULL, nb.partial.axes=3,
                        col.ind=NULL, col.groups=NULL, partial = NULL, lim.cos2.plot = 0, lim.contrib.plot=0, xlim = NULL,  ylim = NULL,
                        cex = 1, main = NULL, leg=TRUE,posleg="topleft",cex.leg=0.8, 
                        col.groups.sup=NULL,posleg.sup="topright",nb.paxes.sup=3,...) 
@@ -307,7 +307,8 @@ plot.MFAmix <- function(x, axes = c(1, 2), choice = "axes", label=TRUE, coloring
       graphics::text(coord.paxes[v, 1], y = coord.paxes[v, 2], labels = rownames(coord.paxes)[v], 
            pos = pos, col = col.paxes[v], cex = cex,...)
     }
-    
+       if ((coloring.var == "groups") & (leg==TRUE)) 
+      graphics::legend((posleg), legend = name.groups, text.col = col.groups, cex = cex.leg)
     if (sup)
     {
       coord.paxes <- NULL
@@ -336,6 +337,8 @@ plot.MFAmix <- function(x, axes = c(1, 2), choice = "axes", label=TRUE, coloring
         graphics::text(coord.paxes[v, 1], y = coord.paxes[v, 2], labels = rownames(coord.paxes)[v], 
              pos = pos, col = col.paxes[v], cex = cex,...)
       }
+      if ((coloring.var == "groups") & (leg==TRUE)) 
+        graphics::legend((posleg.sup), legend = name.groups.sup, text.col = col.groups.sup, cex = cex.leg)
     }
     
   }   
@@ -570,11 +573,12 @@ plot.MFAmix <- function(x, axes = c(1, 2), choice = "axes", label=TRUE, coloring
             else pos <- 1
           }
           graphics::text(coord.var.sup[v, 1], y = coord.var.sup[v, 2], 
-               labels = rownames(coord.var.sup)[v], pos = pos, cex = cex,col.var.sup[v])
+               labels = rownames(coord.var.sup)[v], pos = pos, cex = cex,col=col.var.sup[v])
         }
       }
       if ((coloring.var == "groups") & (leg==TRUE)) 
-        graphics::legend(posleg.sup, legend = name.groups.sup[unique(x$index.groupsup[1:p1.sup])], text.col = unique(col.var.sup), cex = cex.leg)
+        graphics::legend(posleg.sup, legend = name.groups.sup[unique(x$index.groupsup[1:p1.sup])], 
+                         text.col = unique(col.var.sup), cex = cex.leg)
     }
     
   }
@@ -582,13 +586,15 @@ plot.MFAmix <- function(x, axes = c(1, 2), choice = "axes", label=TRUE, coloring
   # plot of the individuals
   if (choice == "ind") 
   {
-    if (is.null(main)) main <- "Individuals component map"
-    coord.ind <- x$ind$coord
+    if (is.null(main)) 
+      main <- "Individuals component map"
     
+    coord.ind <- x$ind$coord
+  
     if (lim.cos2.plot == 0 & lim.contrib.plot==0)
     {
       lim.plot<-0
-      select.ind<-1:nrow(coord.ind)
+      select.ind <- 1:nrow(coord.ind)
     }
     
     if (lim.cos2.plot != 0 & lim.contrib.plot==0)
@@ -614,12 +620,12 @@ plot.MFAmix <- function(x, axes = c(1, 2), choice = "axes", label=TRUE, coloring
       
       coord.ind <- coord.ind[select.ind, , drop=FALSE]
   
-      xmin <- min(xlim, coord.ind[, dim1])
-      xmax <- max(xlim, coord.ind[, dim1])
+      xmin <- min(xlim,coord.ind[, dim1])
+      xmax <- max(xlim,coord.ind[, dim1])
       xlim <- c(xmin, xmax) * 1.2
       
       ymin <- min(ylim,coord.ind[, dim2])
-      ymax <- max(ylim, coord.ind[, dim2])
+      ymax <- max(ylim,coord.ind[, dim2])
       ylim <- c(ymin, ymax) * 1.2
       
       if (is.null(col.ind) | is.null(coloring.ind))
@@ -641,9 +647,9 @@ plot.MFAmix <- function(x, axes = c(1, 2), choice = "axes", label=TRUE, coloring
       col.plot.ind.total<-col.plot.ind
       col.plot.ind <- col.plot.ind[select.ind]
       
-      graphics::plot(coord.ind[, axes], xlim = xlim, ylim = ylim, xlab = lab.x, 
+      graphics::plot(coord.ind[, axes,drop=FALSE], xlim = xlim, ylim = ylim, xlab = lab.x, 
            ylab = lab.y, pch = 20, col = as.character(col.plot.ind), 
-           cex = cex, main=main, ...)
+           cex = cex, main=main,...)
       graphics::abline(h = 0, lty = 2, cex = cex)
       graphics::abline(v = 0, lty = 2, cex = cex)
       
@@ -663,11 +669,11 @@ plot.MFAmix <- function(x, axes = c(1, 2), choice = "axes", label=TRUE, coloring
       if (length(select.partial)==0)
         stop("\"lim.cos.plot\" (or \"lim.contrib.plot\") is too large. No partial individuals can be plotted",call. = FALSE)
       
-      coord.ind <- coord.ind[select.partial, , drop=FALSE]
-      xmin <- min(xlim, coord.ind[, dim1])
-      xmax <- max(xlim, coord.ind[, dim1])
+      coord.ind.part <- coord.ind[select.partial, , drop=FALSE]
+      xmin <- min(xlim,coord.ind[, dim1])
+      xmax <- max(xlim,coord.ind[, dim1])
       ymin <- min(ylim,coord.ind[, dim2])
-      ymax <- max(ylim, coord.ind[, dim2])
+      ymax <- max(ylim,coord.ind[, dim2])
       
       for (i in 1:ngroup)
       { 
@@ -681,26 +687,30 @@ plot.MFAmix <- function(x, axes = c(1, 2), choice = "axes", label=TRUE, coloring
       xlim <- c(xmin, xmax) * 1.2
       ylim <- c(ymin, ymax) * 1.2
       
-      graphics::plot(coord.ind[,axes], xlim = xlim, ylim = ylim, xlab = lab.x, 
+      col.plot.ind <- rep("black",nrow(coord.ind))
+      
+      graphics::plot(as.matrix(coord.ind[,axes]), xlim = xlim, ylim = ylim, xlab = lab.x, 
            ylab = lab.y, pch = 20, cex = cex,main=main,...)
       graphics::abline(h = 0, lty = 2, cex = cex)
       graphics::abline(v = 0, lty = 2, cex = cex)
       
-      for (i in 1:ngroup){
-        t <-x$ind.partial[[i]][select.partial,axes,drop=FALSE]
-        graphics::points(t,col=col.groups[i],pch=20)
-        for (j in 1:length(select.partial)){
-          m<-list(x=c(coord.ind[j,dim1],t[j,1]), y=c(coord.ind[j,dim2],t[j,2]))
+      if (label) 
+        graphics::text(coord.ind.part[, axes,drop=FALSE], labels = rownames(coord.ind.part), 
+                       pos = 3, col = as.character(col.plot.ind), cex = cex)
+      
+      for (i in 1:ngroup)
+      {
+        t <- x$ind.partial[[i]][select.partial,axes,drop=FALSE]
+        graphics::points(t,col=col.groups[i],pch=20,...)
+        for (j in 1:length(select.partial))
+        {
+          m <- list(x=c(coord.ind.part[j,dim1],t[j,1]), y=c(coord.ind.part[j,dim2],t[j,2]))
           graphics::lines(m,col=col.groups[i]) 
         }
       }
       
       if(leg==TRUE)
         graphics::legend(posleg, legend = name.groups, text.col = col.groups, cex = cex.leg)
-      
-      if (label) 
-        graphics::text(coord.ind[, axes], labels = rownames(coord.ind), 
-             pos = 3, cex = cex,...)
     }
   }
   

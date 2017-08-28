@@ -10,6 +10,8 @@ MFAmix<-function(data, groups, name.groups, ndim=5, rename.level=FALSE,
   
   n <-nrow(data)
   ngroup <-length(unique(groups))
+  if (sum(unique(groups)!=1:ngroup)!=0)
+    stop("Groups must be numbered from 1 to nbgroups\"",call. = FALSE)
   if (length(name.groups)!=ngroup)
     stop("Invalid length of \"name.groups\"",call. = FALSE)
   
@@ -170,8 +172,8 @@ MFAmix<-function(data, groups, name.groups, ndim=5, rename.level=FALSE,
   )
   
   
-  class(res)<-c("MFAmix","list")
-  #class(res)<-c("MFAmix")
+  #class(res)<-c("MFAmix","list")
+  class(res)<-c("MFAmix")
   
   if (graph) {  
       plot.MFAmix(res,axes=axes,choice="axes",coloring.var="groups")

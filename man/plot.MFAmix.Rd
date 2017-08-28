@@ -4,7 +4,7 @@
 \alias{plot.MFAmix}
 \title{Graphical outputs of MFAmix}
 \usage{
-\method{plot}{MFAmix}(x, axes = c(1, 2), choice = "axes", label = TRUE,
+\method{plot}{MFAmix}(x, axes = c(1, 2), choice = "ind", label = TRUE,
   coloring.var = "not", coloring.ind = NULL, nb.partial.axes = 3,
   col.ind = NULL, col.groups = NULL, partial = NULL, lim.cos2.plot = 0,
   lim.contrib.plot = 0, xlim = NULL, ylim = NULL, cex = 1,
@@ -191,13 +191,12 @@ plot(mfa.sup,choice="levels")
 plot(mfa.sup,choice="cor",coloring.var = "groups")
 
 }
-\author{
-, \email{marie.chavent@u-bordeaux.fr}, Amaury Labenne
-}
 \references{
 Chavent M., Kuentz-Simonet V., Labenne A., Saracco J., Multivariate analysis of mixed data: The PCAmixdata R package, arXiv:1411.4911 [stat.CO].
 }
 \seealso{
 \code{\link{summary.PCAmix}},\code{\link{PCAmix}},\code{\link{PCArot}}
 }
-
+\author{
+, \email{marie.chavent@u-bordeaux.fr}, Amaury Labenne
+}
