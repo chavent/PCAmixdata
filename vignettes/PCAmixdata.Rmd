@@ -1,0 +1,299 @@
+---
+title: "How to use the PCAmixdata Package"
+author: "Marie Chavent"
+date: "`r Sys.Date()`"
+output: 
+  html_vignette: 
+    toc: yes
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{How to Use the PCAmixdata Package}
+  %\usepackage[UTF-8]{inputenc}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,eval=TRUE,fig.align="center",fig.width = 7,fig.height = 6)
+```
+
+##PCAmix
+
+The datatable __housing__ is used.
+```{r}
+library(PCAmixdata)
+data(gironde)
+head(gironde$housing)
+```
+
+The __PCAmix__ function is applied to this datatable.
+```{r}
+split <- splitmix(gironde$housing)
+X1 <- split$X.quanti 
+X2 <- split$X.quali 
+res.pcamix <- PCAmix(X.quanti=X1, X.quali=X2,rename.level=TRUE,
+                     graph=FALSE)
+```
+The object __res.pcamix__ contains many numerical results summarized in the S3 __print__ method.
+```{r}
+res.pcamix
+```
+
+The variance of the principal components is obtained.
+```{r}
+res.pcamix$eig
+```
+
+### Graphical outputs
+Here are some graphical outputs.
+
+```{r,fig.width = 10,fig.height = 10}
+par(mfrow=c(2,2))
+plot(res.pcamix,choice="ind",coloring.ind=X2$houses,label=FALSE,
+      posleg="bottomright", main="Observations")
+plot(res.pcamix,choice="levels",xlim=c(-1.5,2.5), main="Levels")
+plot(res.pcamix,choice="cor",main="Numerical variables")
+plot(res.pcamix,choice="sqload",coloring.var=T, leg=TRUE,
+     posleg="topright", main="All variables")
+```
+
+It is also possible to select some observations to plot.
+```{r,fig.width = 5,fig.height = 5}
+sort(res.pcamix$ind$coord[,2])[1:10]
+plot(res.pcamix,choice="ind",lim.contrib.plot = 2,
+      posleg="bottomright", main="Observations",cex=0.8)
+```
+
+### Prediction and plot of new observations.
+We select randomly 100 observations to build a test sample. The remaining observations are in a train sample used to perform __PCAmix__.
+
+```{r}
+set.seed(10)
+test <- sample(1:nrow(gironde$housing),100)
+train.pcamix <- PCAmix(X1[-test,],X2[-test,],ndim=2,graph=FALSE)
+```
+The scores of the 100 observations are obtained with the S3 method __predict.PCAmix__. 
+
+```{r}
+pred <- predict.PCAmix(train.pcamix,X1[test,],X2[test,])
+head(pred)
+```
+
+It is then possible to plot these observation as supplementary on the principal component map.
+
+```{r,fig.width = 5,fig.height = 5}
+plot(train.pcamix,axes=c(1,2),label=FALSE,main="Observations map")
+points(pred,col=2,pch=16)
+legend("bottomright",legend = c("train","test"),fill=1:2,col=1:2)
+```
+
+### Plot of supplementary variables
+We choose as supplementary variables:
+  * the numerical variable __building__ of the datatable __environment__
+  * the categorical variable __doctor__ of the datatable __services__
+And we use the S3 method __supvar.PCAmix__ to obtain the coordinates of this supplmentary numerical on the correlation circle of __PCAmix__ as well as the coordinates of the levels of this supplementary categorical variable.
+```{r}
+X1sup <- gironde$environment[,1,drop=FALSE]
+X2sup <- gironde$services[,7,drop=FALSE]
+res.sup <- supvar(res.pcamix,X1sup,X2sup,rename.level=TRUE)
+res.sup$quanti.sup$coord[,1:2,drop=FALSE]
+res.sup$levels.sup$coord[,1:2]
+```
+
+The S3 method __plot.PCAmix__ plots automatically these supplementary variables on all the graphical outputs.
+
+```{r,fig.width = 5,fig.height = 10}
+par(mfrow=c(2,1))
+plot(res.sup,choice="cor",main="Numerical variables")
+plot(res.sup,choice="levels",main="Levels",xlim=c(-2,2.5))
+```
+
+
+##PCArot
+
+We apply here the function __PCArot__ to perform varimax-type rotation to the result of __PCAmix__ applied to the datatable __housing__. The 10 first observations are removed to illustrate later the prediction of new observations.
+
+```{r}
+library(PCAmixdata)
+data(gironde)
+#Create the datatable housing without the ten first observations
+train <- gironde$housing[-c(1:10), ]
+#Split the datatable
+split <- splitmix(train)
+X1 <- split$X.quanti 
+X2 <- split$X.quali 
+res.pcamix <- PCAmix(X.quanti=X1, X.quali=X2,rename.level=TRUE,
+                     graph=FALSE)
+```
+In order to choose the number of dimension to rotate, we look at the inertia of the principal components again.
+```{r}
+res.pcamix$eig 
+```
+We decide to rotate 3 principal components that summarize  84% of the inertia.
+
+```{r}
+res.pcarot <- PCArot(res.pcamix,dim=3,graph=FALSE)
+res.pcarot$eig #variance of the rotated PCs
+sum(res.pcarot$eig[,2]) #unchanged explained inertia
+```
+The object __res.pcarot__ contains many numerical results summarized in the S3 __print__ method.
+```{r}
+res.pcarot
+```
+We can look at the squared loadings before and after rotation.
+```{r}
+round(res.pcamix$sqload[,1:3],digit=2)
+round(res.pcarot$sqload,digit=2)
+```
+
+### Graphical outputs
+It is also possible to plot all the standard maps of __PCAmix__ before and after rotation. For instance we can plot the observations and variables before and after rotation in the dimensions 1 and 3.
+```{r,fig.width = 10,fig.height = 10}
+par(mfrow=c(2,2))
+plot(res.pcamix,choice="ind",label=FALSE,axes=c(1,3),
+     main="Observations before rotation")
+plot(res.pcarot,choice="ind",label=FALSE,axes=c(1,3),
+     main="Observations after rotation")
+plot(res.pcamix,choice="sqload", coloring.var=TRUE, leg=TRUE,axes=c(1,3),
+     posleg="topleft", main="Variables before rotation",
+     xlim=c(0,1), ylim=c(0,1))
+plot(res.pcarot,choice="sqload", coloring.var=TRUE, leg=TRUE,axes=c(1,3),
+     posleg="topright", main="Variables after rotation",
+     xlim=c(0,1), ylim=c(0,1))
+```
+It also possible to plot the numerical variables (on the correlation circle) or the levels of the categorical variables.
+```{r,fig.width = 10,fig.height = 10}
+par(mfrow=c(2,2))
+plot(res.pcamix,choice="cor", coloring.var=TRUE, leg=TRUE,axes=c(1,3),
+     posleg="topright", main="Before rotation")
+plot(res.pcarot,choice="cor", coloring.var=TRUE, leg=TRUE,axes=c(1,3),
+     posleg="topright", main="After rotation")
+plot(res.pcamix,choice="levels",  leg=TRUE,axes=c(1,3),
+     posleg="topright", main="Before rotation",xlim=c(-1.5,2.5))
+plot(res.pcarot,choice="levels", leg=TRUE,axes=c(1,3),
+     posleg="topright", main="After rotation",xlim=c(-1.5,2.5))
+```
+
+### Prediction and plot of new observations.
+It is possible, exactly as in __PCAmix__, to predict the scores of new observations on the principal components after rotation.
+
+```{r}
+test <- gironde$housing[1:10, ]
+splitnew <- splitmix(test)
+X1new <- splitnew$X.quanti
+X2new<-splitnew$X.quali
+pred.rot <- predict(object=res.pcarot, X.quanti=X1new, X.quali=X2new)
+pred.rot
+```
+An of course these new observations can be plot as supplementary observations on the principal component map of the observations after rotation.
+```{r,fig.width = 5,fig.height = 5}
+plot(res.pcarot,axes=c(1,3),label=FALSE,main="Observations map after rotation")
+points(pred.rot[,c(1,3)],col=2,pch=16)
+legend("topright",legend = c("train","test"),fill=1:2,col=1:2)
+```
+
+
+#MFAmix
+We use here the 4 mixed datatables available in the dataset __gironde__. This dataset is a list of 4 datatables (one datatable by group).
+
+```{r} 
+library(PCAmixdata)
+data(gironde)
+names(gironde)
+```
+
+Then we apply the function __MFAmix__ to the four datatables concatenated in a single datatable.
+
+```{r}
+#Concatenation of the 4 datatables
+dat <- cbind(gironde$employment,gironde$housing,gironde$services,gironde$environment) 
+index <- c(rep(1,9),rep(2,5),rep(3,9),rep(4,4)) 
+names <- c("employment","housing","services","environment") 
+res.mfamix<-MFAmix(data=dat,groups=index,
+                   name.groups=names,ndim=3,rename.level=TRUE,graph=FALSE)
+```
+
+The object __res.mfamix__ contains many numerical results summarized in the S3 __print__ method.
+```{r}
+res.mfamix
+```
+
+
+
+### Graphical outputs
+The graphical outputs of __MFAmix__ are quite similar to those of __PCAmix__ with some specifity introduced by the knowedge of groups of variables.
+
+```{r,fig.width = 10,fig.height = 10}
+par(mfrow=c(2,2))
+plot(res.mfamix, choice="cor",coloring.var="groups",leg=TRUE,
+     main="(a) Numerical variables")
+plot(res.mfamix,choice="ind", partial=c("SAINTE-FOY-LA-GRANDE"), label=TRUE,
+     posleg="topright", main="(b) Observations")
+plot(res.mfamix,choice="sqload",coloring.var="groups",
+     posleg="topright",main="(c) All variables")
+plot(res.mfamix, choice="groups", coloring.var="groups",
+     main="(c) Groups")
+```
+
+Because the correlation circle can be difficult to read with the superposition of the names of some variables, it can be useful to look at the numerical values the most correlated (in absloute value) to the 2 first principal components of __PCAmix__.
+
+```{r}
+coord.var <- res.mfamix$quanti$coord[,1:2]
+subset(coord.var,abs(coord.var[,1])>0.5,1)
+subset(coord.var,abs(coord.var[,2 ])>0.5,2)
+```
+
+In order to have details on the way the variables of the group __services__ (in blue on the map of all the variables) interpret the first principal component, we look at the map the levels of the categorical variables;
+
+```{r,fig.width = 7,fig.height = 5}
+plot(res.mfamix, choice="levels", coloring.var="groups",
+     posleg="bottomleft", main="(c) Levels",xlim=c(-2,4))
+```
+
+     
+
+### Prediction and plot of new observations
+We want to put the municipality __SAINTE-FOY-LA-GRANDE__ as supplementary observation in the __MFAmix__ analysis.
+
+```{r}
+sel <- which(rownames(dat)=="SAINTE-FOY-LA-GRANDE")
+res.mfamix<- MFAmix(data=dat[-sel,],groups=index,
+                   name.groups=names,rename.level=TRUE,graph=FALSE)
+pred <- predict(res.mfamix,dat[sel,,drop=FALSE])
+pred[,1:2,drop=FALSE]
+```
+
+It is then possible to plot __SAINTE-FOY-LA-GRANDE__ as an illustrative municipality.
+```{r}
+plot(res.mfamix,axes=c(1,2),label=FALSE,main="Observations map",
+     ylim=c(-5,1.5),cex=0.8)
+points(pred[,1:2,drop=FALSE],col=2,pch=16)
+text(pred,"SAINTE-FOY-LA-GRANDE",col=2,cex=0.7,pos=2)
+selplot <- which(res.mfamix$ind$coord[,1]>4.2)
+text(res.mfamix$ind$coord[selplot,1:2],rownames(dat[-sel,])[selplot],col=1,cex=0.7,pos=2)
+legend("topright",legend = c("active","illustrative"),fill=1:2,col=1:2)
+```
+
+### Plot of supplementary groups
+Let us for instance apply __MFAmix__ with three groups (__employment__ ,  __services__,__environment__) and add the group __housing__  in supplementary.
+```{r}
+dat <- cbind(gironde$employment,gironde$services,gironde$environment) 
+names <- c("employment","services","environment") 
+mfa <-MFAmix(data=dat,groups=c(rep(1,9),rep(2,9),rep(3,4)),
+                   name.groups=names, rename.level=TRUE,graph=FALSE)
+mfa.sup <- supvar(mfa,data.sup=gironde$housing, groups.sup=rep(1,5),
+                name.groups.sup="housing.sup",rename.level=TRUE)
+```
+
+The group __housing__ can then plotted as supplementary on the maps of __MFAmix__. 
+```{r,fig.width = 12,fig.height = 8}
+par(mfrow=c(1,2))
+plot(mfa.sup,choice="groups",coloring.var="groups")
+plot(mfa.sup,choice="cor",coloring.var = "groups")
+```
+
+# References
+
+Chavent, M., Kuentz-Simonet, V., Labenne, A., Saracco, J., Multivariate analysis of mixed data: The PCAmixdata R package, [arXiv preprint](https://arxiv.org/abs/1411.4911). 
+
+Chavent, M., Kuentz, V., Saracco, J. (2011). Orthogonal Rotation in PCAMIX. __Advances in Classification and Data Analysis__, Vol. 6, pp. 131-146.
+
+Kiers, H.A.L., (1991). Simple structure in Component Analysis Techniques for mixtures of qualitative and quantitative variables, __Psychometrika__, 56, 197-212.
