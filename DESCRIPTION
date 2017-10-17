@@ -1,7 +1,7 @@
 Package: PCAmixdata
 Type: Package
 Title: Multivariate Analysis of Mixed Data
-Version: 3.0
+Version: 3.1
 Authors@R: c(person("Marie", "Chavent", role = c("aut", "cre"),
                     email = "Marie.Chavent@u-bordeaux.fr"),
              person("Vanessa", "Kuentz", role = "aut"),
