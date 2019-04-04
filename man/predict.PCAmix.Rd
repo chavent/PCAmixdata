@@ -4,8 +4,7 @@
 \alias{predict.PCAmix}
 \title{Prediction of new scores in PCAmix or PCArot}
 \usage{
-\method{predict}{PCAmix}(object, X.quanti = NULL, X.quali = NULL,
-  rename.level = FALSE, ...)
+\method{predict}{PCAmix}(object, X.quanti = NULL, X.quali = NULL, ...)
 }
 \arguments{
 \item{object}{an object of class PCAmix obtained with the function 
@@ -17,10 +16,6 @@ a matrix (such as a numeric vector or a data frame with all numeric columns).}
 \item{X.quali}{a categorical matrix of data, or an object that can be coerced 
 to such a matrix (such as a character vector, a factor or a data frame with 
 all factor columns).}
-
-\item{rename.level}{boolean, if TRUE all the levels of the qualitative variables
-are renamed as follows: "variable_name=level_name". This prevents to have 
-identical names for the levels.}
 
 \item{\ldots}{urther arguments passed to or from other methods. 
 They are ignored in this function.}
@@ -42,25 +37,30 @@ must be described with the same variables than those used in PCAmix (or PCArot).
 # quantitative data
 data(decathlon)
 n <- nrow(decathlon)
-sub <- sample(1:n,20)
-pca<-PCAmix(decathlon[sub,1:10], graph=FALSE)
-predict(pca,decathlon[-sub,1:10])
+train <- sample(1:n,20)
+pca <- PCAmix(decathlon[train,1:10], graph=FALSE)
+predict(pca, decathlon[-train,1:10])
 rot <- PCArot(pca,dim=4)
-predict(rot,decathlon[-sub,1:10])
+predict(rot,decathlon[-train,1:10])
+
+# qualitative data
+data(flower)
+n <- nrow(flower)
+train <- sample(1:n,10)
+mca <- PCAmix(X.quali=flower[train,1:3], rename.level=TRUE, graph=FALSE)
+predict(mca, X.quali=flower[-train,1:3])
 
 # quantitative and qualitative data
 data(wine)
-str(wine)
 X.quanti <- splitmix(wine)$X.quanti
 X.quali <- splitmix(wine)$X.quali
-pca<-PCAmix(X.quanti[,1:27],X.quali,ndim=4,graph=FALSE)
 n <- nrow(wine)
-sub <- sample(1:n,10)
-pca<-PCAmix(X.quanti[sub,1:27],X.quali[sub,],ndim=4)
-pred <- predict(pca,X.quanti[-sub,1:27],X.quali[-sub,])
+train <- sample(1:n, 10)
+pca <-PCAmix(X.quanti[train,1:10], X.quali[train,], ndim=4)
+pred <- predict(pca, X.quanti[-train,1:10], X.quali[-train,])
 plot(pca,axes=c(1,2))
 points(pred[,c(1,2)],col=2,pch=16)
-text(pred[,c(1,2)], labels = rownames(X.quanti[-sub,1:27]), col=2,pos=3)
+text(pred[,c(1,2)], labels = rownames(X.quanti[-train,1:27]), col=2,pos=3)
 }
 \references{
 Chavent M., Kuentz-Simonet V., Labenne A., Saracco J., Multivariate analysis of mixed data: The PCAmixdata R package, arXiv:1411.4911 [stat.CO].

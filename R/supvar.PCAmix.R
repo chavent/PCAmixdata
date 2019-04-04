@@ -13,7 +13,6 @@ supvar <- function(obj,...) {
   UseMethod("supvar")
 }
 
-#' @export supvar.PCAmix
 #' @export
 #' @name supvar.PCAmix
 #' @title  Supplementary variables in PCAmix

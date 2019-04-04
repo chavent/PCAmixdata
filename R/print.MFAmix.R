@@ -1,5 +1,5 @@
-#' @export print.MFAmix
 #' @export
+#' @keywords internal
 print.MFAmix<-function (x, ...) 
 {
   res.mfa <- x

@@ -1,4 +1,13 @@
-#' @export
+#Varimax rotation for PCAmix in two dimensions
+# Input :
+# A=matrix of loadings
+# indexj = the index vector of the selected variables
+# p = the total number of variables
+# p1 = the number of quantitative variables
+# Output :
+# theta = the angle of rotation
+# T = the matrix of rotation
+
 sol.2dim <- function(A,indexj,p,p1)
 {
   uj <- rep(NA,p)
@@ -28,5 +37,4 @@ sol.2dim <- function(A,indexj,p,p1)
   theta <- as.numeric(theta)
   T <- matrix(c(cos(theta),-sin(theta),sin(theta),cos(theta)),2,2,byrow=TRUE)
   return(list(theta=theta,T=T))
-  
 }

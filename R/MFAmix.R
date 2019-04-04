@@ -29,8 +29,8 @@ MFAmix<-function(data, groups, name.groups, ndim=5, rename.level=FALSE,
 
   
   #from now we use these data
-  groups<-rep(1:ngroup,size.groups)
-  data<-data.ord
+  groups <- rep(1:ngroup,size.groups)
+  data <- data.ord
   
   res.separate.pcamix <- list()
   data.groups.stand<-list()

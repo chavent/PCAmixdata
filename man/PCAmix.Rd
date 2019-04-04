@@ -4,8 +4,9 @@
 \alias{PCAmix}
 \title{Principal component analysis of mixed data}
 \usage{
-PCAmix(X.quanti = NULL, X.quali = NULL, ndim = 5, rename.level = FALSE,
-  weight.col.quanti = NULL, weight.col.quali = NULL, graph = TRUE)
+PCAmix(X.quanti = NULL, X.quali = NULL, ndim = 5,
+  rename.level = FALSE, weight.col.quanti = NULL,
+  weight.col.quali = NULL, graph = TRUE)
 }
 \arguments{
 \item{X.quanti}{a numeric matrix of data, or an object that can be 
@@ -119,11 +120,10 @@ pca$quanti$coord
 
 #MCA
 data(flower)
-mca <- PCAmix(X.quali=flower[,1:4],rename.level=TRUE)
-mca <- PCAmix(X.quali=flower[,1:4],rename.level=TRUE,graph=FALSE)
-plot(mca,choice="ind",main="Scores")
-plot(mca,choice="sqload",main="Correlation ratios")
-plot(mca,choice="levels",main="Levels")
+mca <- PCAmix(X.quali=flower[,1:4], rename.level=TRUE, graph=FALSE)
+plot(mca,choice="ind", main="Scores")
+plot(mca,choice="sqload", main="Correlation ratios")
+plot(mca,choice="levels", main="Levels")
 mca$levels$coord
 
 #Missing values

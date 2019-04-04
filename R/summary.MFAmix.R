@@ -1,4 +1,3 @@
-#' @export summary.MFAmix
 #' @export
 summary.MFAmix <-function(object, ...){
   x <- object

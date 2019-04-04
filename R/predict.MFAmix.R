@@ -1,4 +1,3 @@
-#' @export predict.MFAmix
 #' @export
 #' @name predict.MFAmix
 #' @title  Prediction of new scores in MFAmix
@@ -14,9 +13,6 @@
 #' @param data a data frame containing the description of the new observations 
 #' on all the variables. This data frame  will be split into \code{G} groups according 
 #' to the vector \code{groups}.
-#' @param rename.level boolean, if TRUE all the levels of the qualitative variables
-#' are renamed as follows: "variable_name=level_name". This prevents to have 
-#' identical names for the levels.
 #' @param \ldots urther arguments passed to or from other methods. 
 #' They are ignored in this function.
 #' @return  Returns the matrix of the scores of the new observations on 
@@ -49,77 +45,102 @@
 #'      col=2,pos=3,cex=0.6)
 
 
-predict.MFAmix<-function (object, data, rename.level=FALSE,...) 
+predict.MFAmix<-function (object, data,...) 
 {
   mfa <- object
   if (!inherits(mfa, "MFAmix")) 
     stop("use only with \"MFAmix\" objects")
-  if (mfa$rename.level) 
-    rename.level=TRUE
-  if ((rename.level) & (!mfa$rename.level))
-    stop("perform MFAmix with argument rename.level=TRUE",call.=FALSE)
-  if ((nrow(data)==1) && stats::complete.cases(data)==FALSE)
-      stop("a single observation with missing values with can't be predicted",call. = FALSE)
-  X.quanti<-splitmix(data)$X.quanti
-  X.quali<-splitmix(data)$X.quali
-  rec <- recod(X.quanti, X.quali,rename.level=rename.level)
-  Y <- rec$Y
-  n <- rec$n
-  beta <- mfa$global.pca$coef
   
-#   ncol_tot<-length(beta[[1]])-1
-#   #test if that all levels of the caregorical variable in the first dataset are observed in the new dataset.
-#   if (ncol_tot!=ncol(Y)){
-#     Ymodif<-matrix(0,nrow=n,ncol=ncol_tot)
-#     colname.part<-colnames(Y)
-#     colname.tot<-names(beta[[1]][-1,])
-#     colnames(Ymodif)<-colname.tot
-#     Ymodif[,colname.part]<-Y[,colname.part]
-#     Y<-Ymodif  
-#   }
+  X.quanti <- splitmix(data)$X.quanti
+  X.quali <- splitmix(data)$X.quali
   
-  if (!is.null(X.quanti)) {
-    label <- rownames(X.quanti)
-    n1 <- nrow(X.quanti)
-    p1 <- ncol(X.quanti)
-    if (p1 != mfa$global.pca$rec$p1) 
-      stop("The number of numerical variables in data must be the same than in the learning set",call.=FALSE)
-  }
-  if (!is.null(X.quali)) {
-    label <- rownames(X.quali)
-    n2 <- nrow(X.quali)
-    p2 <- ncol(X.quali)
-    if (p2 != mfa$global.pca$rec$p2) 
-      stop("The number of categorical variables in data must be the same than in the learning set",call.=FALSE)
-  }
-  if (!is.null(X.quanti) && !is.null(X.quali)) {
-    if (n1 != n2) 
-      stop("The number of objects in X.quanti and X.quali must be the same",call.=FALSE)
-    if (sum(rownames(X.quali) != rownames(X.quanti)) != 0) 
-      stop("The names of the objects in X.quanti and X.quali must be the same",call.=FALSE)
-  }
+  beta <- mfa$coef
+  p2 <- 0
   
-  if (!setequal(colnames(mfa$global.pca$rec$X),colnames(rec$X)))
-    stop("The colnames in the new sample are not appropiate",call.=FALSE)
+  train.rec <- mfa$global.pca$rec
+  train.rename.level <-  mfa$rename.level
   
-  if (rec$p2 >0 )
+  if (!is.null(X.quanti)) 
   {
-    #different levels in the new sample and in the learning sample
-    if (!setequal(colnames(mfa$global.pca$rec$Y),colnames(Y)))
+    label <- rownames(X.quanti)
+    if (is.null(train.rec$X.quanti))
+      stop("No quantitative dataset for training PCAmix", call. = FALSE)       
+    if (!setequal(colnames(train.rec$X.quanti), colnames(X.quanti)))
+      stop("The names of the columns in X.quanti and in the learning dataset
+           are different", call. = FALSE)
+    Y1 <- as.matrix(X.quanti[,colnames(train.rec$X.quanti)])
+    # imput missing values with mean values in the train dataset
+    if (any(is.na(Y1))) 
     {
-      col.test <- is.element(colnames(Y),colnames(mfa$global.pca$rec$Y))
-      Y <- Y[,col.test,drop=FALSE]
-      col.beta <- c(TRUE,is.element(colnames(mfa$global.pca$rec$Y),colnames(Y)))
-      beta <- lapply(beta,function(x) {x[col.beta,1,drop=FALSE]})
+      for (v in 1:ncol(Y1))
+      {
+        ind <- which(is.na(Y1[,v])==TRUE)
+        if(length(ind)>=1)
+          Y1[ind,v] <- train.rec$g[v]
+      }
     }
-  }
+  } else Y1 <- NULL
   
-  scores <- matrix(, n, length(beta))
-  for (g in 1:length(beta)) scores[, g] <- Y %*% beta[[g]][-1] + 
-    beta[[g]][1]
-  colnames(scores) <- paste("dim", 1:length(beta), sep = "")
-  rownames(scores) <- label
-  return(scores)
+  if (!is.null(X.quali))
+  {
+    label <- rownames(X.quali)
+    p2 <- ncol(X.quali)
+    if (is.null(train.rec$X.quali))
+      stop("No qualitative dataset for training PCAmix", call. = FALSE)  
+    if (!setequal(colnames(train.rec$X.quali), colnames(X.quali)))
+      stop("The names of the columns in X.quali and in the learning dataset
+           are different", call. = FALSE)
+    GNA <- PCAmixdata::tab.disjonctif.NA(X.quali, 
+                                         rename.level = train.rename.level)
+    G <- as.matrix(replace(GNA,is.na(GNA),0))
+    
+    if (!setequal(colnames(train.rec$G),colnames(G)))
+    {
+      #levels in train not in test : levels are merged in test
+      if (length(setdiff(colnames(train.rec$G), colnames(G))) > 0)
+      {
+        for (v in 1:ncol(X.quali))
+          levels(X.quali[,v]) <- union(levels(X.quali[,v]),
+                                       levels(train.rec$X.quali[,v]))
+        GNA <- PCAmixdata::tab.disjonctif.NA(X.quali, 
+                                             rename.level = train.rename.level)
+        G <- as.matrix(replace(GNA,is.na(GNA),0))
+      }
+      
+      #levels in test not in train : observations are removed
+      if (length(setdiff(colnames(G), colnames(train.rec$G))) > 0)
+      { 
+        if (length(setdiff(colnames(G), colnames(train.rec$G))) == length(colnames(G)))
+          stop("No level in common between the test and the training dataset",
+               call. = FALSE)
+        G2 <- G[,is.element(colnames(G),colnames(train.rec$G)), drop=FALSE]
+        if (length(which(apply(G2,1,sum) < p2)) == nrow(G))
+          stop("No observation in the test dataset can be predicted", 
+               call. = FALSE)
+        G <- G2
+        if (any(apply(G2,1,sum) < p2))
+        {
+          warning("Predictions can not be preformed for some observations")
+          G <- G2[-which(apply(G2,1,sum) < p2),, drop=FALSE]
+          if (!is.null(Y1))
+            Y1 <- Y1[-which(apply(G2,1,sum) < p2),,drop=FALSE]
+        }
+      }
+    }
+    G <- G[,colnames(train.rec$G), drop=FALSE]
+  } else G <- NULL
+  
+  
+  Y <- cbind(Y1,G)
+  n <- nrow(Y)
+  
+  coord <- matrix(NA,n,length(beta))
+  for (g in 1: length(beta)) 
+    coord[,g] <- Y %*% beta[[g]][-1] +  beta[[g]][1]
+  
+  colnames(coord) <- paste("dim", 1:length(beta), sep = "")
+  rownames(coord) <- rownames(Y)
+  return(coord)		
 }
 
 

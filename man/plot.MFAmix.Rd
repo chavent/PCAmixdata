@@ -4,12 +4,13 @@
 \alias{plot.MFAmix}
 \title{Graphical outputs of MFAmix}
 \usage{
-\method{plot}{MFAmix}(x, axes = c(1, 2), choice = "ind", label = TRUE,
-  coloring.var = "not", coloring.ind = NULL, nb.partial.axes = 3,
-  col.ind = NULL, col.groups = NULL, partial = NULL, lim.cos2.plot = 0,
-  lim.contrib.plot = 0, xlim = NULL, ylim = NULL, cex = 1,
-  main = NULL, leg = TRUE, posleg = "topleft", cex.leg = 0.8,
-  col.groups.sup = NULL, posleg.sup = "topright", nb.paxes.sup = 3, ...)
+\method{plot}{MFAmix}(x, axes = c(1, 2), choice = "ind",
+  label = TRUE, coloring.var = "not", coloring.ind = NULL,
+  nb.partial.axes = 3, col.ind = NULL, col.groups = NULL,
+  partial = NULL, lim.cos2.plot = 0, lim.contrib.plot = 0,
+  xlim = NULL, ylim = NULL, cex = 1, main = NULL, leg = TRUE,
+  posleg = "topleft", cex.leg = 0.8, col.groups.sup = NULL,
+  posleg.sup = "topright", nb.paxes.sup = 3, ...)
 }
 \arguments{
 \item{x}{an object of class MFAmix obtained with the function \code{MFAmix}.}

@@ -14,14 +14,13 @@ Author: Marie Chavent [aut, cre],
     Benoit Liquet [aut],
     Jerome Saracco [aut]
 Maintainer: Marie Chavent <Marie.Chavent@u-bordeaux.fr>
-Description: Principal Component Analysis, orthogonal rotation and multiple
+Description: Implements principal component analysis, orthogonal rotation and multiple
     factor analysis for a mixture of quantitative and qualitative variables.
 Imports:
     graphics
 License: GPL (>=2.0)
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
-

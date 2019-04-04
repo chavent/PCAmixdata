@@ -1,4 +1,3 @@
-#' @export supvar.MFAmix
 #' @export
 #' @name supvar.MFAmix
 #' @title  Supplementary variables in MFAmix

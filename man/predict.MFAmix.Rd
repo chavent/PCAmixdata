@@ -4,7 +4,7 @@
 \alias{predict.MFAmix}
 \title{Prediction of new scores in MFAmix}
 \usage{
-\method{predict}{MFAmix}(object, data, rename.level = FALSE, ...)
+\method{predict}{MFAmix}(object, data, ...)
 }
 \arguments{
 \item{object}{an object of class MFAmix obtained with the function 
@@ -13,10 +13,6 @@
 \item{data}{a data frame containing the description of the new observations 
 on all the variables. This data frame  will be split into \code{G} groups according 
 to the vector \code{groups}.}
-
-\item{rename.level}{boolean, if TRUE all the levels of the qualitative variables
-are renamed as follows: "variable_name=level_name". This prevents to have 
-identical names for the levels.}
 
 \item{\ldots}{urther arguments passed to or from other methods. 
 They are ignored in this function.}

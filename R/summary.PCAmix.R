@@ -1,4 +1,3 @@
-#' @export summary.PCAmix
 #' @export
 summary.PCAmix <-
   function(object, ...)

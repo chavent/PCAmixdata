@@ -1,4 +1,3 @@
-#' @export plot.MFAmix
 #' @export
 #' @title  Graphical outputs of MFAmix
 #' @description Displays the graphical outputs of MFAmix. 

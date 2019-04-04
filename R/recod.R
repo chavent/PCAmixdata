@@ -30,13 +30,13 @@ recod <-
         X.quali <- data.frame(X.quali)
       for (v in 1:ncol(X.quali)) {
         if (is.numeric(X.quali[, v])) 
-          stop("All variables in X.quali must be categorical",call.=FALSE) }      
-      vect.all.levels<-as.character(unlist(apply(X.quali,2,unique)))
-      vect.all.levels.unique<-unique(vect.all.levels)
-      test.name.categ<-length(vect.all.levels)==length(vect.all.levels.unique)      
+          stop("All variables in X.quali must be categorical", call.=FALSE) }      
+      vect.all.levels <- as.character(unlist(apply(X.quali,2,unique)))
+      vect.all.levels.unique <- unique(vect.all.levels)
+      test.name.categ <- length(vect.all.levels)==length(vect.all.levels.unique)      
       if(test.name.categ==FALSE && rename.level==FALSE)
-        stop("Some categorical variables have same names of categories,
-             rename categories or use the option rename.level=TRUE to rename it automatically",call.=FALSE)
+        stop("Some categorical variables have same levels :
+             rename levels or use the option rename.level=TRUE", call.=FALSE)
       for (v in 1:ncol(X.quali)) X.quali[,v] <- factor(as.character(X.quali[,v])) 
       n2 <- nrow(X.quali)
       p2 <- ncol(X.quali)

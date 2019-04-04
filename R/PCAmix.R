@@ -47,6 +47,7 @@ NULL
 #' eigenvalues are then equal to the usual eigenvalues of MCA times p. 
 #' When all the variables are quantitative, PCAmix gives exactly the same 
 #' results as standard PCA.
+#' 
 #' @return  \item{eig}{a matrix containing the eigenvalues, the percentages of variance and the cumulative percentages of variance.}
 #' \item{ind}{a list containing the results for the individuals (observations):
 #'  \itemize{
@@ -107,11 +108,10 @@ NULL
 #' 
 #' #MCA
 #' data(flower)
-#' mca <- PCAmix(X.quali=flower[,1:4],rename.level=TRUE)
-#' mca <- PCAmix(X.quali=flower[,1:4],rename.level=TRUE,graph=FALSE)
-#' plot(mca,choice="ind",main="Scores")
-#' plot(mca,choice="sqload",main="Correlation ratios")
-#' plot(mca,choice="levels",main="Levels")
+#' mca <- PCAmix(X.quali=flower[,1:4], rename.level=TRUE, graph=FALSE)
+#' plot(mca,choice="ind", main="Scores")
+#' plot(mca,choice="sqload", main="Correlation ratios")
+#' plot(mca,choice="levels", main="Levels")
 #' mca$levels$coord
 #' 
 #' #Missing values
