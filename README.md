@@ -1,8 +1,5 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
+
+
 ## Description
 
 The R package `PCAmixdata` implements principal component analysis, orthogonal rotation and multiple factor analysis for a mixture of quantitative and qualitative variables. 
