@@ -4,8 +4,7 @@
 \alias{supvar.PCAmix}
 \title{Supplementary variables in PCAmix}
 \usage{
-\method{supvar}{PCAmix}(obj, X.quanti.sup = NULL, X.quali.sup = NULL,
-  rename.level = FALSE, ...)
+\method{supvar}{PCAmix}(obj, X.quanti.sup = NULL, X.quali.sup = NULL, rename.level = FALSE, ...)
 }
 \arguments{
 \item{obj}{an object of class \code{PCAmix}.}

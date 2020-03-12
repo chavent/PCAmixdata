@@ -4,8 +4,7 @@
 \alias{supvar.MFAmix}
 \title{Supplementary variables in MFAmix}
 \usage{
-\method{supvar}{MFAmix}(obj, data.sup, groups.sup, name.groups.sup,
-  rename.level = FALSE, ...)
+\method{supvar}{MFAmix}(obj, data.sup, groups.sup, name.groups.sup, rename.level = FALSE, ...)
 }
 \arguments{
 \item{obj}{an object of class \code{MFAmix}.}

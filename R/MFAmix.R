@@ -17,7 +17,7 @@ MFAmix<-function(data, groups, name.groups, ndim=5, rename.level=FALSE,
   
   data.groups <- splitgroups(data=data,groups=groups,name.groups=name.groups)$data.groups 
   listvar.group <- splitgroups(data=data,groups=groups,name.groups=name.groups)$listvar.groups
-  size.groups<-unlist(lapply(data.groups,ncol)) #number of variables in each group
+  size.groups <- unlist(lapply(data.groups,ncol)) #number of variables in each group
 
   #reorder the data matrix by block 
   data.ord <- data.groups[[1]]
@@ -29,7 +29,7 @@ MFAmix<-function(data, groups, name.groups, ndim=5, rename.level=FALSE,
 
   
   #from now we use these data
-  groups <- rep(1:ngroup,size.groups)
+  groups <- rep(1:ngroup, size.groups)
   data <- data.ord
   
   res.separate.pcamix <- list()

@@ -4,11 +4,25 @@
 \alias{plot.PCAmix}
 \title{Graphical outputs of PCAmix and PCArot}
 \usage{
-\method{plot}{PCAmix}(x, axes = c(1, 2), choice = "ind",
-  label = TRUE, coloring.ind = NULL, col.ind = NULL,
-  coloring.var = FALSE, lim.cos2.plot = 0, lim.contrib.plot = 0,
-  posleg = "topleft", xlim = NULL, ylim = NULL, cex = 1,
-  leg = TRUE, main = NULL, cex.leg = 1, ...)
+\method{plot}{PCAmix}(
+  x,
+  axes = c(1, 2),
+  choice = "ind",
+  label = TRUE,
+  coloring.ind = NULL,
+  col.ind = NULL,
+  coloring.var = FALSE,
+  lim.cos2.plot = 0,
+  lim.contrib.plot = 0,
+  posleg = "topleft",
+  xlim = NULL,
+  ylim = NULL,
+  cex = 1,
+  leg = TRUE,
+  main = NULL,
+  cex.leg = 1,
+  ...
+)
 }
 \arguments{
 \item{x}{an object of class PCAmix obtained with the function \code{PCAmix} or \code{PCArot}.}

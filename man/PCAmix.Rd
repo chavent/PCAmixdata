@@ -4,9 +4,15 @@
 \alias{PCAmix}
 \title{Principal component analysis of mixed data}
 \usage{
-PCAmix(X.quanti = NULL, X.quali = NULL, ndim = 5,
-  rename.level = FALSE, weight.col.quanti = NULL,
-  weight.col.quali = NULL, graph = TRUE)
+PCAmix(
+  X.quanti = NULL,
+  X.quali = NULL,
+  ndim = 5,
+  rename.level = FALSE,
+  weight.col.quanti = NULL,
+  weight.col.quali = NULL,
+  graph = TRUE
+)
 }
 \arguments{
 \item{X.quanti}{a numeric matrix of data, or an object that can be 
