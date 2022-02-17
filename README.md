@@ -10,6 +10,8 @@ https://chavent.github.io/PCAmixdata
 
 https://chavent.github.io/PCAmixdata/supplementary.html
 
+https://chavent.github.io/PCAmixdata/pcamix_with_R.html
+
 ## Install
 
 To install the current development version from github, use :
