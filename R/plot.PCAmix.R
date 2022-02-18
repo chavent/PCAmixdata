@@ -221,7 +221,9 @@ plot.PCAmix <- function(x,axes = c(1, 2), choice = "ind",label=TRUE,
     if(length(select.ind)!=0)
     {
       if(leg==TRUE & is.factor(coloring.ind))
-        graphics::legend(posleg, legend =paste(cl["coloring.ind"],levels(coloring.ind),sep="="), text.col = levels(as.factor(col.plot.ind.total)), 
+        graphics::legend(posleg, legend =paste(cl["coloring.ind"],
+               levels(coloring.ind),sep="="), 
+               text.col = levels(as.factor(col.plot.ind.total)), 
                cex =cex.leg)
       
       if (label) 
