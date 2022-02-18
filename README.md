@@ -10,7 +10,7 @@ https://chavent.github.io/PCAmixdata
 
 https://chavent.github.io/PCAmixdata/supplementary.html
 
-https://chavent.github.io/PCAmixdata/pcamix_with_R.html
+https://chavent.github.io/PCAmixdata/PCAmixcompare.html
 
 ## Install
 
