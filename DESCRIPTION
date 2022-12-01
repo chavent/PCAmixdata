@@ -19,8 +19,9 @@ Description: Implements principal component analysis, orthogonal rotation and mu
 Imports:
     graphics
 License: GPL (>=2.0)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.2
 Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+Encoding: UTF-8
