@@ -157,7 +157,7 @@ PCAmix<- function (X.quanti=NULL,X.quali=NULL,ndim=5,rename.level=FALSE,
     ns <- apply(rec$G, 2, sum)
     M2 <- n/ns
     P2 <- rep(1,m)
-    if (!(is.null(weight.col.quanti)))   
+    if (!(is.null(weight.col.quali)))   
     {
     if (length(weight.col.quali) != ncol(X.quali))
       stop("the length of \"weight.col.quali\" is different from the number of columns in X.quanti",call. = FALSE)

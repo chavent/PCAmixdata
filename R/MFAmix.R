@@ -33,7 +33,7 @@ MFAmix<-function(data, groups, name.groups, ndim=5, rename.level=FALSE,
   data <- data.ord
   
   res.separate.pcamix <- list()
-  data.groups.stand<-list()
+  data.groups.stand <- list()
   
   #PCAmix with each group
   for(i in 1:ngroup){
