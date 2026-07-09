@@ -12,14 +12,17 @@ https://chavent.github.io/PCAmixdata/supplementary.html
 
 https://chavent.github.io/PCAmixdata/PCAmixcompare.html
 
-## Install
+## Installation
 
-To install the current development version from github, use :
+The package can be installed from GitHub using:
 
-```{r eval=FALSE}
-devtools::install_github("chavent/PCAmixdata")
-# This needs the devtools package to be installed :
-# install.packages("devtools")
+```r
+pak::pak("chavent/PCAmixdata")
+```
+If needed, install pak first:
+
+```r
+install.packages("pak")
 ```
 
 
